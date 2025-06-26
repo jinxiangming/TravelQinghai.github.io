@@ -456,6 +456,7 @@
             position: relative;
             overflow: hidden;
             border: none;
+            will-change: transform, box-shadow; /* Optimize animation performance */
         }
 
         .attraction-card:hover {
@@ -1219,6 +1220,14 @@
                 font-size: 0.9rem;
             }
         }
+        
+        /* Map error message */
+        .map-error {
+            text-align: center;
+            padding: 20px;
+            color: var(--danger);
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -1576,7 +1585,8 @@
                 <img src="https://github.com/jinxiangming/travel.github.io/raw/1cb9bf5d1e3fddf3fca7505bda71d7aa1f7a9d85/image/Qinghai_map.jpg"
                      alt="青海湖旅游地图"
                      class="map-image"
-                     id="qinghaiMap">
+                     id="qinghaiMap"
+                     onerror="this.parentNode.querySelector('.map-loading').innerHTML = '<div class=\'map-error\'><i class=\'fas fa-exclamation-triangle\'></i><p>地图加载失败，请稍后刷新页面</p></div>'">
             </div>
         </div>
 
@@ -1745,6 +1755,7 @@
             const mainHeader = document.getElementById('main-header');
             let scrollTimeout; // For auto-hiding floating nav
             let lastScrollTop = 0; // To track scroll direction for header auto-hide
+            let scrollThrottleTimeout; // For scroll event throttling
 
             // Initial setup for header display based on device width
             function setHeaderVisibility() {
@@ -1776,34 +1787,40 @@
 
             // Auto-hide floating nav on scroll for mobile, PC header shrinks
             window.addEventListener('scroll', function() {
-                let currentScroll = window.scrollY;
+                // Throttle scroll events for better performance
+                if (scrollThrottleTimeout) return;
+                scrollThrottleTimeout = setTimeout(() => {
+                    scrollThrottleTimeout = null;
+                    
+                    let currentScroll = window.scrollY;
 
-                if (window.innerWidth <= 768) {
-                    // Mobile: Floating nav auto-show/hide on scroll
-                    floatingNav.classList.add('visible'); // Show floating nav on scroll
-                    clearTimeout(scrollTimeout); // Clear previous timeout
-                    scrollTimeout = setTimeout(function() {
-                        floatingNav.classList.remove('visible'); // Hide after delay
-                    }, 1500); // 1.5 seconds delay for floating nav auto-hide
+                    if (window.innerWidth <= 768) {
+                        // Mobile: Floating nav auto-show/hide on scroll
+                        floatingNav.classList.add('visible'); // Show floating nav on scroll
+                        clearTimeout(scrollTimeout); // Clear previous timeout
+                        scrollTimeout = setTimeout(function() {
+                            floatingNav.classList.remove('visible'); // Hide after delay
+                        }, 1500); // 1.5 seconds delay for floating nav auto-hide
 
-                    // Ensure top header remains hidden on mobile during scroll
-                    mainHeader.style.display = 'none';
-                    document.body.style.paddingTop = '0';
+                        // Ensure top header remains hidden on mobile during scroll
+                        mainHeader.style.display = 'none';
+                        document.body.style.paddingTop = '0';
 
-                } else {
-                    // PC: Header shrinks on scroll
-                    if (currentScroll > 100) {
-                        mainHeader.classList.add('scrolled');
                     } else {
-                        mainHeader.classList.remove('scrolled');
+                        // PC: Header shrinks on scroll
+                        if (currentScroll > 100) {
+                            mainHeader.classList.add('scrolled');
+                        } else {
+                            mainHeader.classList.remove('scrolled');
+                        }
+                        // Ensure floating nav is hidden on PC
+                        floatingNav.classList.remove('visible');
+                        // Ensure PC header is visible and body padding is correct
+                        mainHeader.style.display = 'flex';
+                        document.body.style.paddingTop = 'var(--header-height)';
                     }
-                    // Ensure floating nav is hidden on PC
-                    floatingNav.classList.remove('visible');
-                    // Ensure PC header is visible and body padding is correct
-                    mainHeader.style.display = 'flex';
-                    document.body.style.paddingTop = 'var(--header-height)';
-                }
-                lastScrollTop = currentScroll; // Update last scroll position
+                    lastScrollTop = currentScroll; // Update last scroll position
+                }, 100); // Throttle to 100ms
             });
 
             // Hide floating nav when a link inside it is clicked (mobile only)
@@ -1847,30 +1864,36 @@
 
             // Active section highlighting on scroll
             window.addEventListener('scroll', () => {
-                const sections = document.querySelectorAll('.section, .hero');
-                const navLinks = document.querySelectorAll('.nav-links a, .floating-nav a');
+                // Throttle scroll events for better performance
+                if (scrollThrottleTimeout) return;
+                scrollThrottleTimeout = setTimeout(() => {
+                    scrollThrottleTimeout = null;
+                    
+                    const sections = document.querySelectorAll('.section, .hero');
+                    const navLinks = document.querySelectorAll('.nav-links a, .floating-nav a');
 
-                let currentActiveSectionId = '';
-                // Adjust scrollOffset for mobile where header is hidden, use 0 for offset
-                const headerHeightForOffset = window.innerWidth <= 768 ? 0 : mainHeader.offsetHeight;
-                const scrollOffset = window.scrollY + headerHeightForOffset + 50; // Add buffer for better UX
+                    let currentActiveSectionId = '';
+                    // Adjust scrollOffset for mobile where header is hidden, use 0 for offset
+                    const headerHeightForOffset = window.innerWidth <= 768 ? 0 : mainHeader.offsetHeight;
+                    const scrollOffset = window.scrollY + headerHeightForOffset + 50; // Add buffer for better UX
 
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
+                    sections.forEach(section => {
+                        const sectionTop = section.offsetTop;
+                        const sectionHeight = section.clientHeight;
 
-                    if (scrollOffset >= sectionTop && scrollOffset < sectionTop + sectionHeight) {
-                        currentActiveSectionId = section.getAttribute('id') || '';
-                    }
-                });
+                        if (scrollOffset >= sectionTop && scrollOffset < sectionTop + sectionHeight) {
+                            currentActiveSectionId = section.getAttribute('id') || '';
+                        }
+                    });
 
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    const href = link.getAttribute('href');
-                    if (href === `#${currentActiveSectionId}` || (href === '#home' && currentActiveSectionId === 'home')) {
-                        link.classList.add('active');
-                    }
-                });
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        const href = link.getAttribute('href');
+                        if (href === `#${currentActiveSectionId}` || (href === '#home' && currentActiveSectionId === 'home')) {
+                            link.classList.add('active');
+                        }
+                    });
+                }, 100);
             });
 
             // Map loading handling
@@ -1892,12 +1915,14 @@
                 }, 500);
             };
 
-            mapImage.onerror = function() {
-                clearTimeout(loadingTimeout);
-                mapLoading.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>地图加载失败，请刷新页面</p>';
-                mapLoading.style.opacity = '1';
-                mapLoading.style.display = 'flex';
-            };
+            // Add click outside to close floating nav on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && floatingNav.classList.contains('visible')) {
+                    if (!floatingNav.contains(e.target) && !hamburger.contains(e.target)) {
+                        floatingNav.classList.remove('visible');
+                    }
+                }
+            });
         });
     </script>
 </body>
