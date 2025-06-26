@@ -71,7 +71,7 @@
             pointer-events: none; /* Prevent clicks when hidden */
             opacity: 0; /* Fade out when hidden */
         }
-        
+
         header:not(.hidden) {
             opacity: 1; /* Fade in when not hidden */
         }
@@ -132,11 +132,12 @@
         /* Floating navigation bar styles */
         .floating-nav {
             position: fixed;
-            top: var(--header-height); /* Position below header initially */
+            top: 20px; /* Position at a fixed offset from top for mobile */
             left: -100px; /* Initially hidden off-screen */
             transform: none; /* No translateY needed */
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.95); /* Semi-transparent background */
+            /* Changed background to be more transparent with blur */
+            background: rgba(255, 255, 255, 0.1); /* Very transparent white */
             backdrop-filter: blur(8px); /* Background blur effect */
             border-radius: 0 20px 20px 0;
             padding: 15px 5px;
@@ -144,7 +145,7 @@
             flex-direction: column;
             gap: 15px;
             transition: left 0.3s ease, opacity 0.3s ease;
-            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.05); /* Lighter shadow */
             opacity: 0; /* Initially invisible */
             pointer-events: none; /* Prevent interaction when hidden */
             width: var(--floating-nav-width); /* Fixed width */
@@ -165,7 +166,7 @@
             width: 60px; /* Consistent size */
             height: 60px; /* Consistent size */
             border-radius: 50%;
-            background: rgba(26, 106, 162, 0.05); /* Light primary background */
+            background: rgba(26, 106, 162, 0.1); /* Slightly more opaque background for icons */
             color: var(--primary);
             text-decoration: none;
             font-size: 0.9rem;
@@ -821,12 +822,13 @@
                 display: flex; /* Always display floating nav on mobile */
                 top: 20px; /* Position at a fixed offset from top for mobile */
                 left: -100px; /* Keep it initially hidden */
-                padding: 10px 0;
-                gap: 10px;
-                border-radius: 0 30px 30px 0;
-                background: rgba(255, 255, 255, 0.95); /* Set default background here */
-                backdrop-filter: blur(8px); /* Set default backdrop-filter here */
-                box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+                padding: 15px 5px; /* Adjust padding for better look */
+                gap: 15px; /* Adjust gap for better look */
+                border-radius: 0 20px 20px 0; /* Adjust border-radius */
+                /* Updated background for transparent with blur */
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(8px);
+                box-shadow: 2px 0 15px rgba(0, 0, 0, 0.05);
             }
 
             .floating-nav.visible {
@@ -834,14 +836,14 @@
             }
 
             .floating-nav a {
-                width: 50px;
-                height: 50px;
-                font-size: 0.8rem;
-                background: rgba(26, 106, 162, 0.08); /* Slightly darker for mobile */
+                width: 60px; /* Consistent size as PC floating nav */
+                height: 60px; /* Consistent size as PC floating nav */
+                font-size: 0.9rem; /* Consistent font size */
+                background: rgba(26, 106, 162, 0.1); /* Consistent icon background */
             }
 
             .floating-nav a i {
-                font-size: 1.2rem;
+                font-size: 1.5rem; /* Consistent icon size */
             }
 
             .map-overlay {
@@ -1306,7 +1308,7 @@
                             <ul>
                                 <li>不进入花田踩踏<span class="text-danger">（罚款¥100+）</span></li>
                                 <li>最佳花期：<span class="text-success">7月5日-25日</span></li>
-                                <li>穿<span class="text-success">浅色衣物</span>拍照效果更佳</li>
+                                <li>穿<span class="text-success">鲜艳衣物（红色最佳）</span>拍照效果好</li>
                                 <li>尊重农田，不<span class="text-danger">采摘油菜花</span></li>
                             </ul>
                         </div>
@@ -1488,31 +1490,38 @@
                 }
             });
 
-            // Auto-hide floating nav on scroll after a delay, only on mobile
+            // Auto-hide top header and floating nav on scroll, adjusted for mobile
             window.addEventListener('scroll', function() {
-                // Header auto-hide logic for mobile
-                if (window.innerWidth <= 768) {
-                    let currentScroll = window.scrollY;
+                let currentScroll = window.scrollY;
 
+                // Logic for top header (mainHeader) auto-hide on mobile
+                if (window.innerWidth <= 768) {
                     // If scrolling down and not at the very top, hide the header
                     if (currentScroll > lastScrollTop && currentScroll > mainHeader.offsetHeight) {
                         mainHeader.classList.add('hidden');
                     } else { // If scrolling up or at the very top, show the header
                         mainHeader.classList.remove('hidden');
                     }
-                    lastScrollTop = currentScroll; // Update last scroll position
+                } else {
+                    // On PC, header always shrinks but does not hide
+                    if (currentScroll > 100) {
+                        mainHeader.classList.add('scrolled');
+                    } else {
+                        mainHeader.classList.remove('scrolled');
+                    }
+                    mainHeader.classList.remove('hidden'); // Ensure it's not hidden on PC
+                }
+                lastScrollTop = currentScroll; // Update last scroll position
 
-                    // Floating nav visibility logic for mobile
-                    floatingNav.classList.add('visible');
-                    clearTimeout(scrollTimeout);
+                // Floating nav visibility logic (only visible on mobile, auto-hides)
+                if (window.innerWidth <= 768) {
+                    floatingNav.classList.add('visible'); // Show floating nav on scroll
+                    clearTimeout(scrollTimeout); // Clear previous timeout
                     scrollTimeout = setTimeout(function() {
-                        floatingNav.classList.remove('visible');
+                        floatingNav.classList.remove('visible'); // Hide after delay
                     }, 1500); // 1.5 seconds delay for floating nav auto-hide
                 } else {
-                    // Ensure header is always visible on PC
-                    mainHeader.classList.remove('hidden');
-                    // Ensure floating nav is hidden on PC
-                    floatingNav.classList.remove('visible');
+                    floatingNav.classList.remove('visible'); // Ensure floating nav is hidden on PC
                 }
             });
 
@@ -1535,9 +1544,8 @@
 
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
-                        // Calculate header height for scroll offset
-                        // Use clientHeight for more accurate rendered height, or offsetHeight
-                        const headerHeight = mainHeader.offsetHeight;
+                        // Calculate header height for scroll offset dynamically
+                        const headerHeight = window.innerWidth <= 768 ? 0 : mainHeader.offsetHeight; // No offset if header is hidden on mobile
                         // Calculate target position with header offset
                         const elementRect = targetElement.getBoundingClientRect();
                         const absoluteElementTop = elementRect.top + window.pageYOffset;
@@ -1558,27 +1566,15 @@
                 });
             });
 
-            // Header shrink on scroll (PC) and active section highlight
+            // Active section highlighting on scroll
             window.addEventListener('scroll', () => {
-                // Shrink header effect (primarily for PC, but also applies if header is not hidden on mobile)
-                if (window.innerWidth > 768) { // Only apply shrink effect on PC
-                    if (window.scrollY > 100) {
-                        mainHeader.classList.add('scrolled');
-                    } else {
-                        mainHeader.classList.remove('scrolled');
-                    }
-                } else {
-                    // On mobile, ensure 'scrolled' class is removed to prevent conflicts with 'hidden'
-                    mainHeader.classList.remove('scrolled');
-                }
-
-                // Update active navigation link based on scroll position
                 const sections = document.querySelectorAll('.section, .hero'); // Include hero section
                 const navLinks = document.querySelectorAll('.nav-links a, .floating-nav a');
 
                 let currentActiveSectionId = '';
                 // Use a dynamic offset for active link highlighting based on header visibility
-                const headerHeightForOffset = mainHeader.classList.contains('hidden') ? 0 : mainHeader.offsetHeight;
+                // If header is hidden on mobile, offset should be minimal or 0 to activate links earlier
+                const headerHeightForOffset = (window.innerWidth <= 768 && mainHeader.classList.contains('hidden')) ? 0 : mainHeader.offsetHeight;
                 const scrollOffset = window.scrollY + headerHeightForOffset + 50; // Add buffer for better UX
 
                 sections.forEach(section => {
@@ -1605,7 +1601,6 @@
             const mapLoading = document.getElementById('mapLoading');
 
             // Simulate map loading process (for initial display)
-            // This timeout ensures the loading spinner is shown briefly even if image loads fast
             const loadingTimeout = setTimeout(() => {
                 mapLoading.style.opacity = '0';
                 setTimeout(() => {
