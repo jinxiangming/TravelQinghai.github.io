@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -38,7 +37,7 @@
             overflow-x: hidden;
         }
         
-        /* 导航栏样式 */
+        /* 顶部导航栏样式 */
         header {
             position: fixed;
             top: 0;
@@ -96,30 +95,99 @@
             color: white;
         }
         
-        .mobile-menu-btn {
+        /* 汉堡菜单按钮 */
+        .hamburger {
             display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
+            color: white;
             margin-left: auto;
-            z-index: 1001;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
+            transition: transform 0.3s ease;
         }
         
-        .mobile-menu-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .hamburger:hover {
+            transform: scale(1.1);
+        }
+        
+        /* 悬浮导航栏样式 */
+        .floating-nav {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            z-index: 1000;
+            background: transparent; /* 透明背景 */
+            border-radius: 0 20px 20px 0;
+            padding: 15px 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: all 0.3s ease;
+            transform-origin: left center;
+            border: none; /* 移除边框 */
+            display: none; /* 默认隐藏 */
+            opacity: 0; /* 初始不可见 */
+            pointer-events: none; /* 防止在隐藏时被点击 */
+        }
+        
+        .floating-nav.visible {
+            opacity: 1; /* 显示时可见 */
+            pointer-events: auto; /* 可交互 */
+        }
+        
+        .floating-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85); /* 半透明背景 */
+            backdrop-filter: blur(5px); /* 背景模糊效果 */
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .floating-nav a i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .floating-nav a span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            position: absolute;
+            bottom: 5px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .floating-nav a:hover, .floating-nav a.active {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(26, 106, 162, 0.4);
+        }
+        
+        .floating-nav a:hover span, .floating-nav a.active span {
+            opacity: 1;
+        }
+        
+        .floating-nav a:hover i, .floating-nav a.active i {
+            transform: translateY(-5px);
         }
         
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://github.com/jinxiangming/travel.github.io/raw/aad00d017af98c8ef26d0da191cda68f5217cc54/image/jason-an-background-unsplash.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1567602901358-5ba00815eb15?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
             background-size: cover;
             background-position: center;
             height: 500px;
@@ -703,39 +771,39 @@
         
         @media (max-width: 768px) {
             .nav-links {
-                position: fixed;
-                top: var(--header-height);
+                display: none; /* 隐藏顶部导航链接 */
+            }
+            
+            .hamburger {
+                display: block; /* 显示汉堡菜单 */
+            }
+            
+            .floating-nav {
+                display: flex; /* 在移动端显示悬浮导航栏 */
+                top: calc(var(--header-height) + 20px);
+                transform: none;
+                left: -60px;
+                padding: 10px 0;
+                gap: 10px;
+                border-radius: 0 30px 30px 0;
+                transition: left 0.3s ease;
+                background: transparent;
+                backdrop-filter: none;
+            }
+            
+            .floating-nav.expanded {
                 left: 0;
-                width: 100%;
-                height: calc(100vh - var(--header-height));
-                background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-                flex-direction: column;
-                gap: 0;
-                padding: 30px 0;
-                transform: translateY(-100%);
-                transition: transform 0.4s ease;
-                z-index: 999;
-                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-                overflow-y: auto;
             }
             
-            .nav-links.active {
-                transform: translateY(0);
+            .floating-nav a {
+                width: 50px;
+                height: 50px;
+                font-size: 0.8rem;
+                background: rgba(255, 255, 255, 0.85);
             }
             
-            .nav-links a {
-                width: 90%;
-                margin: 0 auto;
-                border-radius: 12px;
-                padding: 16px 20px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                font-size: 1.1rem;
-                margin-bottom: 10px;
-                background: rgba(255, 255, 255, 0.1);
-            }
-            
-            .mobile-menu-btn {
-                display: flex;
+            .floating-nav a i {
+                font-size: 1.2rem;
             }
             
             .map-overlay {
@@ -760,11 +828,6 @@
             
             .hero p {
                 font-size: 1.1rem;
-            }
-            
-            /* 菜单打开时禁止页面滚动 */
-            body.menu-open {
-                overflow: hidden;
             }
         }
         
@@ -839,6 +902,7 @@
             
             .hero h1 {
                 font-size: 1.8rem;
+                line-height: 1.2;
             }
             
             .hero p {
@@ -852,6 +916,20 @@
             .btn {
                 padding: 12px 20px;
                 font-size: 1rem;
+            }
+            
+            .floating-nav {
+                top: calc(var(--header-height) + 10px);
+            }
+            
+            .section-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .section-title i {
+                margin-left: -5px;
             }
         }
         
@@ -882,6 +960,15 @@
     </style>
 </head>
 <body>
+    <!-- 悬浮导航栏 -->
+    <div class="floating-nav" id="floatingNav">
+        <a href="#home" class="active"><i class="fas fa-home"></i> <span>首页</span></a>
+        <a href="#guide"><i class="fas fa-map-marked-alt"></i> <span>景点</span></a>
+        <a href="#map"><i class="fas fa-map"></i> <span>地图</span></a>
+        <a href="#cost"><i class="fas fa-wallet"></i> <span>费用</span></a>
+        <a href="#tips"><i class="fas fa-child"></i> <span>提示</span></a>
+    </div>
+    
     <!-- 顶部导航栏 -->
     <header id="main-header">
         <div class="logo">
@@ -895,16 +982,17 @@
             <a href="#cost"><i class="fas fa-wallet"></i> 费用优化</a>
             <a href="#tips"><i class="fas fa-child"></i> 家庭提示</a>
         </nav>
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <!-- 汉堡菜单按钮 -->
+        <div class="hamburger" id="hamburger">
             <i class="fas fa-bars"></i>
-        </button>
+        </div>
     </header>
     
     <!-- 英雄区域 -->
     <section class="hero" id="home">
         <div class="hero-content">
             <h1>探索青海湖与西宁周边美景</h1>
-            <p>六口之家：2成人+2老人+2儿童 | 实用省钱技巧 | 老人儿童注意事项</p>
+            <p>六口之家专项建议：2成人+2老人+2儿童 | 实用省钱技巧 | 老人儿童注意事项</p>
             <div class="hero-buttons">
                 <a href="#guide" class="btn btn-primary">
                     <i class="fas fa-map-marked-alt"></i> 查看景点指南
@@ -926,7 +1014,7 @@
                 <div class="header-subtitle">费用优惠 · 打卡地点 · 安全提示 · 特殊注意事项</div>
                 <div class="info-box">
                     <div class="info-row">
-                        <div class="info-item"><i class="fas fa-users"></i> 六口之家：2成人+2老人+2儿童</div>
+                        <div class="info-item"><i class="fas fa-users"></i> 六口之家专项建议：2成人+2老人+2儿童</div>
                         <div class="info-item"><i class="fas fa-wallet"></i> 费用优化：实用省钱技巧</div>
                         <div class="info-item"><i class="fas fa-heart"></i> 健康安全：老人儿童注意事项</div>
                     </div>
@@ -1326,7 +1414,7 @@
         </div>
         
         <footer>
-            <p><i class="fas fa-info-circle"></i> 青海湖+西宁周边家庭自驾游景点建议指南 | 更新日期：2025年6月26日</p>
+            <p><i class="fas fa-info-circle"></i> 青海湖+西宁周边8日家庭自驾游景点建议指南 | 更新日期：2025年6月26日</p>
             <p><i class="fas fa-exclamation-triangle"></i> 温馨提示：7月青海湖气温5-25℃，早晚温差大，请备好防风保暖衣物</p>
         </footer>
     </div>
@@ -1341,6 +1429,43 @@
                 });
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 悬浮导航栏控制
+            const floatingNav = document.getElementById('floatingNav');
+            let scrollTimer;
+            let isScrolling = false;
+            
+            // 滚动时显示悬浮导航栏
+            window.addEventListener('scroll', function() {
+                // 只在移动设备宽度下执行
+                if (window.innerWidth <= 768) {
+                    floatingNav.classList.add('visible');
+                    
+                    // 清除之前的定时器
+                    clearTimeout(scrollTimer);
+                    
+                    // 设置定时器，1秒后隐藏
+                    scrollTimer = setTimeout(function() {
+                        floatingNav.classList.remove('visible');
+                    }, 1000);
+                }
+            });
+            
+            // 汉堡菜单点击事件 - 不再控制悬浮导航栏
+            document.getElementById('hamburger').addEventListener('click', function() {
+                // 现在点击汉堡菜单不做任何事
+                // 或者可以添加其他功能
+            });
+            
+            // 悬浮导航栏链接点击后收起导航栏（仅移动端）
+            document.querySelectorAll('.floating-nav a').forEach(anchor => {
+                anchor.addEventListener('click', function() {
+                    // 如果是移动端，则收起悬浮导航栏
+                    if (window.innerWidth <= 768) {
+                        floatingNav.classList.remove('visible');
+                    }
                 });
             });
             
@@ -1372,7 +1497,7 @@
                         });
                         
                         // 更新导航栏激活状态
-                        document.querySelectorAll('.nav-links a').forEach(a => {
+                        document.querySelectorAll('.nav-links a, .floating-nav a').forEach(a => {
                             a.classList.remove('active');
                         });
                         this.classList.add('active');
@@ -1391,7 +1516,7 @@
                 
                 // 滚动时更新导航栏激活状态
                 const sections = document.querySelectorAll('.section');
-                const navLinks = document.querySelectorAll('.nav-links a');
+                const navLinks = document.querySelectorAll('.nav-links a, .floating-nav a');
                 
                 let current = '';
                 
@@ -1414,35 +1539,6 @@
                     if (href === `#${current}` || (href === '#home' && current === '')) {
                         link.classList.add('active');
                     }
-                });
-            });
-            
-            // 移动端菜单
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const navLinks = document.querySelector('.nav-links');
-            
-            mobileMenuBtn.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                const icon = mobileMenuBtn.querySelector('i');
-                if (navLinks.classList.contains('active')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                    document.body.classList.add('menu-open');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                    document.body.classList.remove('menu-open');
-                }
-            });
-            
-            // 点击导航项时关闭移动菜单
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    const icon = mobileMenuBtn.querySelector('i');
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                    document.body.classList.remove('menu-open');
                 });
             });
             
