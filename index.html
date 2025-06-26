@@ -36,7 +36,7 @@
             background: linear-gradient(135deg, #e6f7ff 0%, #f1f8fe 100%);
             color: var(--text);
             line-height: 1.7;
-            padding-top: var(--header-height);
+            padding-top: var(--header-height); /* Default padding for PC */
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -818,6 +818,16 @@
                 display: block; /* Show hamburger menu on mobile */
             }
 
+            /* Modify header to always be hidden on mobile */
+            header {
+                display: none; /* Hide top header completely on mobile */
+            }
+
+            /* Adjust body padding top for mobile when header is completely hidden */
+            body {
+                padding-top: 0;
+            }
+
             .floating-nav {
                 display: flex; /* Always display floating nav on mobile */
                 top: 20px; /* Position at a fixed offset from top for mobile */
@@ -1219,7 +1229,7 @@
         <a href="#map"><i class="fas fa-map"></i> <span>地图</span></a>
         <a href="#cost"><i class="fas fa-wallet"></i> <span>费用</span></a>
         <a href="#tips"><i class="fas fa-child"></i> <span>提示</span></a>
-        <a href="#pdf-download-section-anchor"><i class="fas fa-file-pdf"></i> <span>攻略</span></a> <!-- Updated href -->
+        <a href="#pdf-download-section-anchor"><i class="fas fa-file-pdf"></i> <span>攻略</span></a>
     </div>
 
     <!-- Top navigation bar -->
@@ -1234,7 +1244,7 @@
             <a href="#map"><i class="fas fa-map"></i> 景点地图</a>
             <a href="#cost"><i class="fas fa-wallet"></i> 费用优化</a>
             <a href="#tips"><i class="fas fa-child"></i> 家庭提示</a>
-            <a href="#pdf-download-section-anchor"><i class="fas fa-file-pdf"></i> 攻略下载</a> <!-- Updated href -->
+            <a href="#pdf-download-section-anchor"><i class="fas fa-file-pdf"></i> 攻略下载</a>
         </nav>
         <!-- Hamburger menu button -->
         <div class="hamburger" id="hamburger">
@@ -1251,7 +1261,7 @@
                 <a href="#guide" class="btn btn-primary">
                     <i class="fas fa-map-marked-alt"></i> 查看景点指南
                 </a>
-                <a href="#pdf-download-section-anchor" class="btn btn-secondary"> <!-- Updated href -->
+                <a href="#pdf-download-section-anchor" class="btn btn-secondary">
                     <i class="fas fa-download"></i> 下载完整攻略
                 </a>
             </div>
@@ -1736,10 +1746,24 @@
             let scrollTimeout; // For auto-hiding floating nav
             let lastScrollTop = 0; // To track scroll direction for header auto-hide
 
-            // Initially hide the main header on mobile devices when the page loads
-            if (window.innerWidth <= 768) {
-                mainHeader.classList.add('hidden');
+            // Initial setup for header display based on device width
+            function setHeaderVisibility() {
+                if (window.innerWidth <= 768) {
+                    // Mobile: Hide top header completely
+                    mainHeader.style.display = 'none';
+                    document.body.style.paddingTop = '0';
+                } else {
+                    // PC: Show top header and reset padding
+                    mainHeader.style.display = 'flex'; // Restore display property
+                    document.body.style.paddingTop = 'var(--header-height)'; // Restore padding from CSS variable
+                }
             }
+
+            // Call on initial load
+            setHeaderVisibility();
+
+            // Also call on window resize to adjust dynamically
+            window.addEventListener('resize', setHeaderVisibility);
 
             // Toggle floating navigation visibility on hamburger click
             hamburger.addEventListener('click', function() {
@@ -1750,39 +1774,36 @@
                 }
             });
 
-            // Auto-hide top header and floating nav on scroll, adjusted for mobile
+            // Auto-hide floating nav on scroll for mobile, PC header shrinks
             window.addEventListener('scroll', function() {
                 let currentScroll = window.scrollY;
 
-                // Logic for top header (mainHeader) auto-hide on mobile
                 if (window.innerWidth <= 768) {
-                    // If scrolling down and not at the very top, hide the header
-                    if (currentScroll > lastScrollTop && currentScroll > mainHeader.offsetHeight) {
-                        mainHeader.classList.add('hidden');
-                    } else { // If scrolling up or at the very top, show the header
-                        mainHeader.classList.remove('hidden');
-                    }
-                } else {
-                    // On PC, header always shrinks but does not hide
-                    if (currentScroll > 100) {
-                        mainHeader.classList.add('scrolled');
-                    } else {
-                        mainHeader.classList.remove('scrolled');
-                    }
-                    mainHeader.classList.remove('hidden'); // Ensure it's not hidden on PC
-                }
-                lastScrollTop = currentScroll; // Update last scroll position
-
-                // Floating nav visibility logic (only visible on mobile, auto-hides)
-                if (window.innerWidth <= 768) {
+                    // Mobile: Floating nav auto-show/hide on scroll
                     floatingNav.classList.add('visible'); // Show floating nav on scroll
                     clearTimeout(scrollTimeout); // Clear previous timeout
                     scrollTimeout = setTimeout(function() {
                         floatingNav.classList.remove('visible'); // Hide after delay
                     }, 1500); // 1.5 seconds delay for floating nav auto-hide
+
+                    // Ensure top header remains hidden on mobile during scroll
+                    mainHeader.style.display = 'none';
+                    document.body.style.paddingTop = '0';
+
                 } else {
-                    floatingNav.classList.remove('visible'); // Ensure floating nav is hidden on PC
+                    // PC: Header shrinks on scroll
+                    if (currentScroll > 100) {
+                        mainHeader.classList.add('scrolled');
+                    } else {
+                        mainHeader.classList.remove('scrolled');
+                    }
+                    // Ensure floating nav is hidden on PC
+                    floatingNav.classList.remove('visible');
+                    // Ensure PC header is visible and body padding is correct
+                    mainHeader.style.display = 'flex';
+                    document.body.style.paddingTop = 'var(--header-height)';
                 }
+                lastScrollTop = currentScroll; // Update last scroll position
             });
 
             // Hide floating nav when a link inside it is clicked (mobile only)
@@ -1800,41 +1821,38 @@
                     e.preventDefault();
 
                     const targetId = this.getAttribute('href');
-                    if (targetId === '#') return; // Skip if href is just '#'
+                    if (targetId === '#') return;
 
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
-                        // Calculate header height for scroll offset dynamically
-                        const headerHeight = window.innerWidth <= 768 && mainHeader.classList.contains('hidden') ? 0 : mainHeader.offsetHeight;
-                        // Calculate target position with header offset
+                        // Dynamically determine offset based on device
+                        const headerHeight = window.innerWidth <= 768 ? 0 : mainHeader.offsetHeight;
                         const elementRect = targetElement.getBoundingClientRect();
                         const absoluteElementTop = elementRect.top + window.pageYOffset;
-                        const targetPosition = absoluteElementTop - headerHeight - 20; // Add a small buffer
+                        // Add a small buffer for PC, no buffer for mobile if header is completely gone
+                        const targetPosition = absoluteElementTop - headerHeight - (window.innerWidth <= 768 ? 0 : 20);
 
-                        // Smooth scroll to the calculated position
                         window.scrollTo({
                             top: targetPosition,
                             behavior: 'smooth'
                         });
 
-                        // Update active class for all navigation links
                         document.querySelectorAll('.nav-links a, .floating-nav a').forEach(a => {
                             a.classList.remove('active');
                         });
-                        this.classList.add('active'); // Set active class on clicked link
+                        this.classList.add('active');
                     }
                 });
             });
 
             // Active section highlighting on scroll
             window.addEventListener('scroll', () => {
-                const sections = document.querySelectorAll('.section, .hero'); // Include hero section
+                const sections = document.querySelectorAll('.section, .hero');
                 const navLinks = document.querySelectorAll('.nav-links a, .floating-nav a');
 
                 let currentActiveSectionId = '';
-                // Use a dynamic offset for active link highlighting based on header visibility
-                // If header is hidden on mobile, offset should be minimal or 0 to activate links earlier
-                const headerHeightForOffset = (window.innerWidth <= 768 && mainHeader.classList.contains('hidden')) ? 0 : mainHeader.offsetHeight;
+                // Adjust scrollOffset for mobile where header is hidden, use 0 for offset
+                const headerHeightForOffset = window.innerWidth <= 768 ? 0 : mainHeader.offsetHeight;
                 const scrollOffset = window.scrollY + headerHeightForOffset + 50; // Add buffer for better UX
 
                 sections.forEach(section => {
@@ -1849,7 +1867,6 @@
                 navLinks.forEach(link => {
                     link.classList.remove('active');
                     const href = link.getAttribute('href');
-                    // Check if link's href matches current section ID or is home link and no other section is active
                     if (href === `#${currentActiveSectionId}` || (href === '#home' && currentActiveSectionId === 'home')) {
                         link.classList.add('active');
                     }
@@ -1860,29 +1877,26 @@
             const mapImage = document.getElementById('qinghaiMap');
             const mapLoading = document.getElementById('mapLoading');
 
-            // Simulate map loading process (for initial display)
             const loadingTimeout = setTimeout(() => {
                 mapLoading.style.opacity = '0';
                 setTimeout(() => {
                     mapLoading.style.display = 'none';
-                }, 500); // Wait for fade-out to complete before hiding
-            }, 1500); // Show loader for at least 1.5 seconds
+                }, 500);
+            }, 1500);
 
-            // Hide loading animation once the image has fully loaded
             mapImage.onload = function() {
-                clearTimeout(loadingTimeout); // Clear simulated loading timeout if image loads faster
+                clearTimeout(loadingTimeout);
                 mapLoading.style.opacity = '0';
                 setTimeout(() => {
                     mapLoading.style.display = 'none';
                 }, 500);
             };
 
-            // Display an error message if the image fails to load
             mapImage.onerror = function() {
-                clearTimeout(loadingTimeout); // Clear simulated loading timeout
+                clearTimeout(loadingTimeout);
                 mapLoading.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>地图加载失败，请刷新页面</p>';
-                mapLoading.style.opacity = '1'; // Ensure error message is visible
-                mapLoading.style.display = 'flex'; // Ensure error message is displayed
+                mapLoading.style.opacity = '1';
+                mapLoading.style.display = 'flex';
             };
         });
     </script>
