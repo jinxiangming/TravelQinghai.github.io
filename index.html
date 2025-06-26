@@ -55,14 +55,25 @@
             display: flex;
             align-items: center;
             padding: 0 20px;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, top 0.3s ease; /* Add transition for 'top' property */
         }
 
-        /* Styles for scrolled header */
+        /* Styles for scrolled header (PC) */
         header.scrolled {
             height: 60px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             background: linear-gradient(135deg, #0d4f85 0%, #1a6aa2 100%);
+        }
+
+        /* Style for hidden header (Mobile) */
+        header.hidden {
+            top: calc(-1 * var(--header-height)); /* Move header off-screen */
+            pointer-events: none; /* Prevent clicks when hidden */
+            opacity: 0; /* Fade out when hidden */
+        }
+        
+        header:not(.hidden) {
+            opacity: 1; /* Fade in when not hidden */
         }
 
         /* Logo styling */
@@ -121,7 +132,7 @@
         /* Floating navigation bar styles */
         .floating-nav {
             position: fixed;
-            top: var(--header-height); /* Position below header */
+            top: var(--header-height); /* Position below header initially */
             left: -100px; /* Initially hidden off-screen */
             transform: none; /* No translateY needed */
             z-index: 1000;
@@ -808,12 +819,11 @@
 
             .floating-nav {
                 display: flex; /* Always display floating nav on mobile */
-                top: var(--header-height); /* Position directly below the header */
+                top: 20px; /* Position at a fixed offset from top for mobile */
                 left: -100px; /* Keep it initially hidden */
                 padding: 10px 0;
                 gap: 10px;
                 border-radius: 0 30px 30px 0;
-                /* Remove backdrop-filter and background here to be set by JS visibility class */
                 background: rgba(255, 255, 255, 0.95); /* Set default background here */
                 backdrop-filter: blur(8px); /* Set default backdrop-filter here */
                 box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
@@ -947,7 +957,7 @@
             }
 
             .floating-nav {
-                top: calc(var(--header-height) + 10px); /* Adjust top position for smaller screens */
+                top: 10px; /* Adjust top position for very small screens */
             }
 
             .section-title {
@@ -1467,6 +1477,7 @@
             const hamburger = document.getElementById('hamburger');
             const mainHeader = document.getElementById('main-header');
             let scrollTimeout; // For auto-hiding floating nav
+            let lastScrollTop = 0; // To track scroll direction for header auto-hide
 
             // Toggle floating navigation visibility on hamburger click
             hamburger.addEventListener('click', function() {
@@ -1479,15 +1490,29 @@
 
             // Auto-hide floating nav on scroll after a delay, only on mobile
             window.addEventListener('scroll', function() {
+                // Header auto-hide logic for mobile
                 if (window.innerWidth <= 768) {
-                    // Show floating nav on scroll
+                    let currentScroll = window.scrollY;
+
+                    // If scrolling down and not at the very top, hide the header
+                    if (currentScroll > lastScrollTop && currentScroll > mainHeader.offsetHeight) {
+                        mainHeader.classList.add('hidden');
+                    } else { // If scrolling up or at the very top, show the header
+                        mainHeader.classList.remove('hidden');
+                    }
+                    lastScrollTop = currentScroll; // Update last scroll position
+
+                    // Floating nav visibility logic for mobile
                     floatingNav.classList.add('visible');
-                    // Clear previous timeout to reset auto-hide timer
                     clearTimeout(scrollTimeout);
-                    // Set new timeout to hide after 1.5 seconds of no scrolling
                     scrollTimeout = setTimeout(function() {
                         floatingNav.classList.remove('visible');
-                    }, 1500); // 1.5 seconds delay
+                    }, 1500); // 1.5 seconds delay for floating nav auto-hide
+                } else {
+                    // Ensure header is always visible on PC
+                    mainHeader.classList.remove('hidden');
+                    // Ensure floating nav is hidden on PC
+                    floatingNav.classList.remove('visible');
                 }
             });
 
@@ -1511,6 +1536,7 @@
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
                         // Calculate header height for scroll offset
+                        // Use clientHeight for more accurate rendered height, or offsetHeight
                         const headerHeight = mainHeader.offsetHeight;
                         // Calculate target position with header offset
                         const elementRect = targetElement.getBoundingClientRect();
@@ -1532,12 +1558,17 @@
                 });
             });
 
-            // Header shrink on scroll and active section highlight
+            // Header shrink on scroll (PC) and active section highlight
             window.addEventListener('scroll', () => {
-                // Shrink header effect
-                if (window.scrollY > 100) {
-                    mainHeader.classList.add('scrolled');
+                // Shrink header effect (primarily for PC, but also applies if header is not hidden on mobile)
+                if (window.innerWidth > 768) { // Only apply shrink effect on PC
+                    if (window.scrollY > 100) {
+                        mainHeader.classList.add('scrolled');
+                    } else {
+                        mainHeader.classList.remove('scrolled');
+                    }
                 } else {
+                    // On mobile, ensure 'scrolled' class is removed to prevent conflicts with 'hidden'
                     mainHeader.classList.remove('scrolled');
                 }
 
@@ -1546,8 +1577,9 @@
                 const navLinks = document.querySelectorAll('.nav-links a, .floating-nav a');
 
                 let currentActiveSectionId = '';
-                const headerHeight = mainHeader.offsetHeight; // Get current header height
-                const scrollOffset = window.scrollY + headerHeight + 50; // Add buffer for better UX
+                // Use a dynamic offset for active link highlighting based on header visibility
+                const headerHeightForOffset = mainHeader.classList.contains('hidden') ? 0 : mainHeader.offsetHeight;
+                const scrollOffset = window.scrollY + headerHeightForOffset + 50; // Add buffer for better UX
 
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
