@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* Basic styles for all elements */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
         }
-        
+
+        /* Root CSS variables for consistent theming */
         :root {
             --primary: #1a6aa2;
             --secondary: #3498db;
@@ -26,8 +28,10 @@
             --light-bg: #f8f9fa;
             --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
             --header-height: 70px;
+            --floating-nav-width: 70px; /* Define a width for the floating nav */
         }
-        
+
+        /* Body styling for background and text */
         body {
             background: linear-gradient(135deg, #e6f7ff 0%, #f1f8fe 100%);
             color: var(--text);
@@ -36,8 +40,8 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
-        /* 顶部导航栏样式 */
+
+        /* Top navigation bar styles */
         header {
             position: fixed;
             top: 0;
@@ -53,13 +57,15 @@
             padding: 0 20px;
             transition: all 0.3s ease;
         }
-        
+
+        /* Styles for scrolled header */
         header.scrolled {
             height: 60px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             background: linear-gradient(135deg, #0d4f85 0%, #1a6aa2 100%);
         }
-        
+
+        /* Logo styling */
         .logo {
             display: flex;
             align-items: center;
@@ -67,17 +73,18 @@
             font-size: 1.8rem;
             font-weight: 700;
         }
-        
+
         .logo i {
             color: var(--accent);
         }
-        
+
+        /* Navigation links styling */
         .nav-links {
             display: flex;
             margin-left: 40px;
             gap: 30px;
         }
-        
+
         .nav-links a {
             color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
@@ -89,77 +96,81 @@
             align-items: center;
             gap: 8px;
         }
-        
+
+        /* Hover and active states for nav links */
         .nav-links a:hover, .nav-links a.active {
             background: rgba(255, 255, 255, 0.25);
             color: white;
         }
-        
-        /* 汉堡菜单按钮 */
+
+        /* Hamburger menu button */
         .hamburger {
-            display: none;
+            display: none; /* Hidden by default on PC */
             font-size: 1.8rem;
             cursor: pointer;
             color: white;
             margin-left: auto;
             transition: transform 0.3s ease;
+            padding: 10px; /* Add padding for easier tapping */
         }
-        
+
         .hamburger:hover {
             transform: scale(1.1);
         }
-        
-        /* 悬浮导航栏样式 */
+
+        /* Floating navigation bar styles */
         .floating-nav {
             position: fixed;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
+            top: var(--header-height); /* Position below header */
+            left: -100px; /* Initially hidden off-screen */
+            transform: none; /* No translateY needed */
             z-index: 1000;
-            background: transparent; /* 透明背景 */
+            background: rgba(255, 255, 255, 0.95); /* Semi-transparent background */
+            backdrop-filter: blur(8px); /* Background blur effect */
             border-radius: 0 20px 20px 0;
             padding: 15px 5px;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            transition: all 0.3s ease;
-            transform-origin: left center;
-            border: none; /* 移除边框 */
-            display: none; /* 默认隐藏 */
-            opacity: 0; /* 初始不可见 */
-            pointer-events: none; /* 防止在隐藏时被点击 */
+            transition: left 0.3s ease, opacity 0.3s ease;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+            opacity: 0; /* Initially invisible */
+            pointer-events: none; /* Prevent interaction when hidden */
+            width: var(--floating-nav-width); /* Fixed width */
         }
-        
+
+        /* Visible state for floating nav */
         .floating-nav.visible {
-            opacity: 1; /* 显示时可见 */
-            pointer-events: auto; /* 可交互 */
+            left: 0; /* Slide in from left */
+            opacity: 1; /* Become visible */
+            pointer-events: auto; /* Allow interaction */
         }
-        
+
         .floating-nav a {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
+            width: 60px; /* Consistent size */
+            height: 60px; /* Consistent size */
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.85); /* 半透明背景 */
-            backdrop-filter: blur(5px); /* 背景模糊效果 */
+            background: rgba(26, 106, 162, 0.05); /* Light primary background */
             color: var(--primary);
             text-decoration: none;
             font-size: 0.9rem;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(26, 106, 162, 0.1);
         }
-        
+
         .floating-nav a i {
             font-size: 1.5rem;
             margin-bottom: 5px;
             transition: all 0.3s ease;
         }
-        
+
         .floating-nav a span {
             font-size: 0.75rem;
             font-weight: 500;
@@ -170,22 +181,24 @@
             text-align: center;
             width: 100%;
         }
-        
+
+        /* Hover and active states for floating nav links */
         .floating-nav a:hover, .floating-nav a.active {
             background: var(--primary);
             color: white;
-            transform: scale(1.1);
+            transform: scale(1.05); /* Slightly less scale for compact feel */
             box-shadow: 0 5px 15px rgba(26, 106, 162, 0.4);
         }
-        
+
         .floating-nav a:hover span, .floating-nav a.active span {
             opacity: 1;
         }
-        
+
         .floating-nav a:hover i, .floating-nav a.active i {
             transform: translateY(-5px);
         }
-        
+
+        /* Hero section styling */
         .hero {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://github.com/jinxiangming/travel.github.io/raw/daae7ecfe24f1e6afecf2e5e27d0266eb16acf4f/image/jason-an-background-unsplash.jpg');
             background-size: cover;
@@ -199,12 +212,12 @@
             padding: 20px;
             position: relative;
         }
-        
+
         .hero-content {
             max-width: 900px;
             z-index: 2;
         }
-        
+
         .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 20px;
@@ -212,7 +225,7 @@
             font-weight: 800;
             animation: fadeInDown 1s ease;
         }
-        
+
         .hero p {
             font-size: 1.4rem;
             margin-bottom: 30px;
@@ -222,7 +235,7 @@
             animation: fadeInUp 1s ease 0.2s forwards;
             opacity: 0;
         }
-        
+
         .hero-buttons {
             display: flex;
             gap: 20px;
@@ -231,7 +244,8 @@
             animation: fadeInUp 1s ease 0.4s forwards;
             opacity: 0;
         }
-        
+
+        /* Button base style */
         .btn {
             padding: 14px 30px;
             border-radius: 50px;
@@ -243,30 +257,33 @@
             align-items: center;
             gap: 10px;
         }
-        
+
+        /* Primary button */
         .btn-primary {
             background: var(--accent);
             color: white;
             box-shadow: 0 5px 15px rgba(255, 157, 0, 0.4);
         }
-        
+
         .btn-primary:hover {
             background: #ff8c00;
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(255, 157, 0, 0.6);
         }
-        
+
+        /* Secondary button */
         .btn-secondary {
             background: transparent;
             border: 2px solid white;
             color: white;
         }
-        
+
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-3px);
         }
-        
+
+        /* Main content container */
         .container {
             max-width: 1200px;
             margin: 60px auto;
@@ -276,7 +293,8 @@
             overflow: hidden;
             position: relative;
         }
-        
+
+        /* Header pattern for aesthetic */
         .header-pattern {
             position: absolute;
             top: 0;
@@ -284,12 +302,13 @@
             width: 100%;
             height: 100%;
             opacity: 0.1;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 10% 20%, rgba(255,255,255,0.8) 0.5px, transparent 1px),
                 radial-gradient(circle at 90% 80%, rgba(255,255,255,0.8) 0.5px, transparent 1px);
             background-size: 50px 50px;
         }
-        
+
+        /* Guide header section */
         .guide-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
@@ -298,12 +317,12 @@
             text-align: center;
             overflow: hidden;
         }
-        
+
         .header-content {
             position: relative;
             z-index: 2;
         }
-        
+
         .guide-header::before {
             content: "";
             position: absolute;
@@ -313,21 +332,23 @@
             height: 6px;
             background: var(--accent);
         }
-        
+
+        /* Main headings */
         h1 {
             font-size: 2.6rem;
             margin-bottom: 15px;
             font-weight: 800;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
-        
+
         .header-subtitle {
             font-size: 1.4rem;
             opacity: 0.9;
             margin-bottom: 25px;
             font-weight: 300;
         }
-        
+
+        /* Information box within header */
         .info-box {
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
@@ -337,7 +358,7 @@
             max-width: 900px;
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        
+
         .info-row {
             display: flex;
             flex-wrap: wrap;
@@ -345,7 +366,7 @@
             gap: 15px;
             margin-top: 5px;
         }
-        
+
         .info-item {
             background: rgba(255, 255, 255, 0.25);
             padding: 12px 22px;
@@ -357,23 +378,25 @@
             transition: all 0.3s ease;
             font-weight: 500;
         }
-        
+
         .info-item:hover {
             background: rgba(255, 255, 255, 0.4);
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
+        /* Section common styles */
         .section {
             padding: 40px 30px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
         }
-        
+
         .section:last-child {
             border-bottom: none;
         }
-        
+
+        /* Section title styling */
         .section-title {
             color: var(--primary);
             padding-left: 25px;
@@ -385,7 +408,7 @@
             align-items: center;
             gap: 15px;
         }
-        
+
         .section-title::before {
             content: "";
             position: absolute;
@@ -397,19 +420,21 @@
             background: linear-gradient(to bottom, var(--accent), #ff6b00);
             border-radius: 4px;
         }
-        
+
         .section-title i {
             font-size: 1.8rem;
             color: var(--accent);
         }
-        
+
+        /* Attraction grid layout */
         .attraction-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 30px;
             margin: 35px 0;
         }
-        
+
+        /* Attraction card styling */
         .attraction-card {
             background: white;
             border-radius: 18px;
@@ -420,12 +445,12 @@
             overflow: hidden;
             border: none;
         }
-        
+
         .attraction-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
-        
+
         .attraction-card::before {
             content: "";
             position: absolute;
@@ -435,7 +460,7 @@
             height: 5px;
             background: linear-gradient(to right, var(--primary), var(--secondary));
         }
-        
+
         .attraction-card h3 {
             color: var(--primary);
             margin-bottom: 25px;
@@ -447,23 +472,23 @@
             padding-bottom: 15px;
             border-bottom: 2px solid #f0f5ff;
         }
-        
+
         .attraction-card h3 i {
             font-size: 1.8rem;
             color: var(--accent);
         }
-        
+
         .card-content {
             display: grid;
             grid-template-columns: 1fr;
             gap: 22px;
         }
-        
+
         .card-section {
             position: relative;
             padding-left: 30px;
         }
-        
+
         .card-section h4 {
             color: var(--text);
             margin-bottom: 15px;
@@ -473,7 +498,7 @@
             font-size: 1.25rem;
             font-weight: 700;
         }
-        
+
         .card-section h4 i {
             width: 36px;
             height: 36px;
@@ -485,7 +510,7 @@
             color: var(--primary);
             font-size: 1.1rem;
         }
-        
+
         .card-section::before {
             content: "";
             position: absolute;
@@ -496,19 +521,20 @@
             background: #e3f2fd;
             border-radius: 3px;
         }
-        
+
+        /* List styling */
         ul {
             padding-left: 10px;
             margin: 12px 0;
         }
-        
+
         li {
             margin-bottom: 14px;
             position: relative;
             padding-left: 25px;
             line-height: 1.6;
         }
-        
+
         li::before {
             content: "";
             position: absolute;
@@ -520,38 +546,39 @@
             background: var(--secondary);
             opacity: 0.3;
         }
-        
-        /* 文字颜色样式 */
+
+        /* Text color utilities */
         .text-success {
             color: var(--success);
             font-weight: 600;
         }
-        
+
         .text-primary {
             color: var(--primary);
             font-weight: 600;
         }
-        
+
         .text-warning {
             color: var(--warning);
             font-weight: 600;
         }
-        
+
         .text-danger {
             color: var(--danger);
             font-weight: 600;
         }
-        
+
         .text-purple {
             color: var(--purple);
             font-weight: 600;
         }
-        
+
         .text-accent {
             color: var(--accent);
             font-weight: 600;
         }
-        
+
+        /* Note box styling */
         .note-box {
             background: linear-gradient(to right, #e3f2fd, #f0f7ff);
             border-left: 5px solid var(--primary);
@@ -562,7 +589,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .note-box::before {
             content: "";
             position: absolute;
@@ -574,7 +601,8 @@
             opacity: 0.05;
             border-radius: 50%;
         }
-        
+
+        /* Footer styling */
         footer {
             background: linear-gradient(to right, var(--primary), #0e4a7c);
             color: #ecf0f1;
@@ -583,7 +611,7 @@
             font-size: 1.1rem;
             position: relative;
         }
-        
+
         footer::before {
             content: "";
             position: absolute;
@@ -593,20 +621,20 @@
             height: 4px;
             background: linear-gradient(to right, var(--accent), #ff6b00);
         }
-        
+
         footer p {
             margin: 12px 0;
             position: relative;
             z-index: 1;
             line-height: 1.8;
         }
-        
+
         footer i {
             margin-right: 8px;
             font-size: 1.2rem;
         }
-        
-        /* 地图部分 */
+
+        /* Map section */
         .map-container {
             height: 500px;
             background: #f0f5ff;
@@ -618,7 +646,7 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .map-overlay {
             position: absolute;
             top: 20px;
@@ -630,7 +658,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             z-index: 10;
         }
-        
+
         .map-overlay h3 {
             color: var(--primary);
             margin-bottom: 15px;
@@ -638,12 +666,12 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .map-overlay ul {
             list-style: none;
             padding: 0;
         }
-        
+
         .map-overlay li {
             padding: 10px 0;
             border-bottom: 1px solid #eee;
@@ -652,41 +680,41 @@
             gap: 10px;
             padding-left: 0;
         }
-        
+
         .map-overlay li:before {
             display: none;
         }
-        
+
         .map-overlay li:last-child {
             border-bottom: none;
         }
-        
+
         .map-overlay .marker {
             width: 12px;
             height: 12px;
             border-radius: 50%;
             display: inline-block;
         }
-        
+
         .marker-1 { background: var(--primary); }
         .marker-2 { background: var(--accent); }
         .marker-3 { background: var(--success); }
         .marker-4 { background: var(--purple); }
-        
+
         .map-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
-        /* 锚点定位 */
+
+        /* Anchor for smooth scrolling */
         .section-anchor {
             position: absolute;
-            top: -100px;
+            top: -100px; /* Offset to account for fixed header */
             left: 0;
         }
-        
-        /* 加载动画 */
+
+        /* Loading animation for map */
         .map-loading {
             display: flex;
             flex-direction: column;
@@ -701,7 +729,7 @@
             z-index: 5;
             transition: opacity 0.5s;
         }
-        
+
         .loader {
             width: 50px;
             height: 50px;
@@ -710,104 +738,104 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        /* 响应式设计 */
+
+        /* Responsive design adjustments */
         @media (max-width: 900px) {
             .container {
                 margin: 10px;
                 border-radius: 15px;
             }
-            
+
             .guide-header {
                 padding: 30px 20px;
             }
-            
+
             h1 {
                 font-size: 2.2rem;
             }
-            
+
             .header-subtitle {
                 font-size: 1.2rem;
             }
-            
+
             .section {
                 padding: 35px 25px;
             }
-            
+
             .section-title {
                 font-size: 1.8rem;
                 padding-left: 20px;
                 margin-bottom: 30px;
             }
-            
+
             .attraction-grid {
                 grid-template-columns: 1fr;
                 gap: 25px;
             }
-            
+
             .info-item {
                 padding: 10px 18px;
                 font-size: 1rem;
             }
-            
+
             .hero h1 {
                 font-size: 2.5rem;
             }
-            
+
             .hero p {
                 font-size: 1.2rem;
             }
-            
+
             .map-overlay {
                 max-width: 250px;
                 padding: 15px;
             }
         }
-        
+
         @media (max-width: 768px) {
             .nav-links {
-                display: none; /* 隐藏顶部导航链接 */
+                display: none; /* Hide top navigation links on mobile */
             }
-            
+
             .hamburger {
-                display: block; /* 显示汉堡菜单 */
+                display: block; /* Show hamburger menu on mobile */
             }
-            
+
             .floating-nav {
-                display: flex; /* 在移动端显示悬浮导航栏 */
-                top: calc(var(--header-height) + 20px);
-                transform: none;
-                left: -60px;
+                display: flex; /* Always display floating nav on mobile */
+                top: var(--header-height); /* Position directly below the header */
+                left: -100px; /* Keep it initially hidden */
                 padding: 10px 0;
                 gap: 10px;
                 border-radius: 0 30px 30px 0;
-                transition: left 0.3s ease;
-                background: transparent;
-                backdrop-filter: none;
+                /* Remove backdrop-filter and background here to be set by JS visibility class */
+                background: rgba(255, 255, 255, 0.95); /* Set default background here */
+                backdrop-filter: blur(8px); /* Set default backdrop-filter here */
+                box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
             }
-            
-            .floating-nav.expanded {
-                left: 0;
+
+            .floating-nav.visible {
+                left: 0; /* Slide in when visible */
             }
-            
+
             .floating-nav a {
                 width: 50px;
                 height: 50px;
                 font-size: 0.8rem;
-                background: rgba(255, 255, 255, 0.85);
+                background: rgba(26, 106, 162, 0.08); /* Slightly darker for mobile */
             }
-            
+
             .floating-nav a i {
                 font-size: 1.2rem;
             }
-            
+
             .map-overlay {
-                position: relative;
+                position: relative; /* Make map overlay stack on top of map */
                 top: 0;
                 left: 0;
                 width: 100%;
@@ -816,143 +844,145 @@
                 box-shadow: none;
                 margin-bottom: 0;
             }
-            
+
             .map-container {
-                flex-direction: column;
+                flex-direction: column; /* Stack map and overlay vertically */
                 height: auto;
             }
-            
+
             .hero h1 {
                 font-size: 2.2rem;
             }
-            
+
             .hero p {
                 font-size: 1.1rem;
             }
         }
-        
+
         @media (max-width: 600px) {
             h1 {
                 font-size: 1.8rem;
             }
-            
+
             .header-subtitle {
                 font-size: 1.1rem;
             }
-            
+
             .section {
                 padding: 30px 20px;
             }
-            
+
             .section-title {
                 font-size: 1.6rem;
                 padding-left: 18px;
             }
-            
+
             .attraction-card {
                 padding: 25px 20px;
             }
-            
+
             .attraction-card h3 {
                 font-size: 1.4rem;
             }
-            
+
             .card-section h4 {
                 font-size: 1.15rem;
             }
-            
+
             .info-row {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .info-item {
                 width: 100%;
                 justify-content: center;
                 text-align: center;
             }
-            
+
             li {
                 padding-left: 22px;
                 font-size: 0.95rem;
             }
-            
+
             .hero h1 {
                 font-size: 2rem;
             }
-            
+
             .hero p {
                 font-size: 1.1rem;
             }
-            
+
             .hero-buttons {
                 flex-direction: column;
                 gap: 15px;
             }
-            
+
             .logo span {
                 font-size: 1.5rem;
             }
         }
-        
+
         @media (max-width: 480px) {
             .hero {
                 height: 450px;
             }
-            
+
             .hero h1 {
                 font-size: 1.8rem;
                 line-height: 1.2;
             }
-            
+
             .hero p {
                 font-size: 1rem;
             }
-            
+
             .logo span {
-                display: none;
+                display: none; /* Hide logo text on very small screens */
             }
-            
+
             .btn {
                 padding: 12px 20px;
                 font-size: 1rem;
             }
-            
+
             .floating-nav {
-                top: calc(var(--header-height) + 10px);
+                top: calc(var(--header-height) + 10px); /* Adjust top position for smaller screens */
             }
-            
+
             .section-title {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
             }
-            
+
             .section-title i {
                 margin-left: -5px;
             }
         }
-        
-        /* 动画效果 */
+
+        /* Keyframe animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
+        /* Animation application */
         .attraction-card {
             animation: fadeIn 0.6s ease-out forwards;
         }
-        
+
+        /* Card section icon backgrounds */
         .card-section:nth-child(1) h4 i { background: #e8f5e9; color: var(--success); }
         .card-section:nth-child(2) h4 i { background: #e3f2fd; color: var(--primary); }
         .card-section:nth-child(3) h4 i { background: #fff8e1; color: var(--warning); }
@@ -960,7 +990,7 @@
     </style>
 </head>
 <body>
-    <!-- 悬浮导航栏 -->
+    <!-- Floating navigation bar -->
     <div class="floating-nav" id="floatingNav">
         <a href="#home" class="active"><i class="fas fa-home"></i> <span>首页</span></a>
         <a href="#guide"><i class="fas fa-map-marked-alt"></i> <span>景点</span></a>
@@ -968,8 +998,8 @@
         <a href="#cost"><i class="fas fa-wallet"></i> <span>费用</span></a>
         <a href="#tips"><i class="fas fa-child"></i> <span>提示</span></a>
     </div>
-    
-    <!-- 顶部导航栏 -->
+
+    <!-- Top navigation bar -->
     <header id="main-header">
         <div class="logo">
             <i class="fas fa-mountain"></i>
@@ -982,13 +1012,13 @@
             <a href="#cost"><i class="fas fa-wallet"></i> 费用优化</a>
             <a href="#tips"><i class="fas fa-child"></i> 家庭提示</a>
         </nav>
-        <!-- 汉堡菜单按钮 -->
+        <!-- Hamburger menu button -->
         <div class="hamburger" id="hamburger">
             <i class="fas fa-bars"></i>
         </div>
     </header>
-    
-    <!-- 英雄区域 -->
+
+    <!-- Hero section -->
     <section class="hero" id="home">
         <div class="hero-content">
             <h1>探索青海湖与西宁周边美景</h1>
@@ -1003,11 +1033,11 @@
             </div>
         </div>
     </section>
-    
-    <!-- 主内容区域 -->
+
+    <!-- Main content area -->
     <div class="container" id="guide">
         <div class="header-pattern"></div>
-        
+
         <div class="guide-header">
             <div class="header-content">
                 <h1><i class="fas fa-mountain"></i> 青海湖+西宁周边景点建议指南</h1>
@@ -1021,14 +1051,14 @@
                 </div>
             </div>
         </div>
-        
-        <!-- 主要景点建议 -->
+
+        <!-- Main attraction suggestions -->
         <div class="section">
             <div class="section-anchor" id="guide-anchor"></div>
             <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> 主要景点游玩建议</h2>
-            
+
             <div class="attraction-grid">
-                <!-- 青海省博物馆 -->
+                <!-- Qinghai Provincial Museum -->
                 <div class="attraction-card">
                     <h3><i class="fas fa-landmark"></i> 青海省博物馆</h3>
                     <div class="card-content">
@@ -1066,8 +1096,8 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- 塔尔寺 -->
+
+                <!-- Ta'er Monastery -->
                 <div class="attraction-card">
                     <h3><i class="fas fa-place-of-worship"></i> 塔尔寺</h3>
                     <div class="card-content">
@@ -1105,8 +1135,8 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- 青海湖二郎剑景区 -->
+
+                <!-- Erlangjian Scenic Area of Qinghai Lake -->
                 <div class="attraction-card">
                     <h3><i class="fas fa-water"></i> 青海湖二郎剑景区</h3>
                     <div class="card-content">
@@ -1146,8 +1176,8 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- 茶卡盐湖 -->
+
+                <!-- Chaka Salt Lake -->
                 <div class="attraction-card">
                     <h3><i class="fas fa-snowflake"></i> 茶卡盐湖</h3>
                     <div class="card-content">
@@ -1188,8 +1218,8 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- 卓尔山风景区 -->
+
+                <!-- Zhuo'er Mountain Scenic Area -->
                 <div class="attraction-card">
                     <h3><i class="fas fa-mountain"></i> 卓尔山风景区</h3>
                     <div class="card-content">
@@ -1230,8 +1260,8 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- 门源油菜花海 -->
+
+                <!-- Menyuan Rape Flower Sea -->
                 <div class="attraction-card">
                     <h3><i class="fas fa-seedling"></i> 门源油菜花海</h3>
                     <div class="card-content">
@@ -1273,7 +1303,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="note-box">
                 <strong><i class="fas fa-lightbulb"></i> 综合建议：</strong>
                 <ul>
@@ -1286,12 +1316,12 @@
                 </ul>
             </div>
         </div>
-        
-        <!-- 地图区域 -->
+
+        <!-- Map section -->
         <div class="section" id="map">
             <div class="section-anchor" id="map-anchor"></div>
             <h2 class="section-title"><i class="fas fa-map"></i> 景点分布地图</h2>
-            
+
             <div class="map-container">
                 <div class="map-loading" id="mapLoading">
                     <div class="loader"></div>
@@ -1308,19 +1338,19 @@
                         <li><span class="marker marker-2"></span> 门源油菜花海</li>
                     </ul>
                 </div>
-                <!-- 青海湖景点地图 - 使用可靠的新链接 -->
-                <img src="https://github.com/jinxiangming/travel.github.io/raw/1cb9bf5d1e3fddf3fca7505bda71d7aa1f7a9d85/image/Qinghai_map.jpg" 
-                     alt="青海湖旅游地图" 
-                     class="map-image" 
+                <!-- Qinghai Lake attraction map - using a reliable new link -->
+                <img src="https://github.com/jinxiangming/travel.github.io/raw/1cb9bf5d1e3fddf3fca7505bda71d7aa1f7a9d85/image/Qinghai_map.jpg"
+                     alt="青海湖旅游地图"
+                     class="map-image"
                      id="qinghaiMap">
             </div>
         </div>
-        
-        <!-- 费用优化建议 -->
+
+        <!-- Cost optimization suggestions -->
         <div class="section" id="cost">
             <div class="section-anchor" id="cost-anchor"></div>
             <h2 class="section-title"><i class="fas fa-wallet"></i> 费用优化建议</h2>
-            
+
             <div class="attraction-grid">
                 <div class="attraction-card">
                     <h3><i class="fas fa-ticket-alt"></i> 门票节省技巧</h3>
@@ -1334,7 +1364,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="attraction-card">
                     <h3><i class="fas fa-utensils"></i> 餐饮节省技巧</h3>
                     <div class="card-content">
@@ -1347,7 +1377,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="attraction-card">
                     <h3><i class="fas fa-bed"></i> 住宿节省技巧</h3>
                     <div class="card-content">
@@ -1362,12 +1392,12 @@
                 </div>
             </div>
         </div>
-        
-        <!-- 老人儿童特别提示 -->
+
+        <!-- Special tips for seniors and children -->
         <div class="section" id="tips">
             <div class="section-anchor" id="tips-anchor"></div>
             <h2 class="section-title"><i class="fas fa-child"></i> 老人儿童特别提示</h2>
-            
+
             <div class="attraction-grid">
                 <div class="attraction-card">
                     <h3><i class="fas fa-user"></i> 老人注意事项</h3>
@@ -1382,7 +1412,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="attraction-card">
                     <h3><i class="fas fa-baby"></i> 儿童注意事项</h3>
                     <div class="card-content">
@@ -1396,7 +1426,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="attraction-card">
                     <h3><i class="fas fa-heartbeat"></i> 健康应急准备</h3>
                     <div class="card-content">
@@ -1412,17 +1442,17 @@
                 </div>
             </div>
         </div>
-        
+
         <footer>
             <p><i class="fas fa-info-circle"></i> 青海湖+西宁周边家庭自驾游景点建议指南 | 更新日期：2025年6月26日</p>
             <p><i class="fas fa-exclamation-triangle"></i> 温馨提示：7月青海湖气温5-25℃，早晚温差大，请备好防风保暖衣物</p>
         </footer>
     </div>
-    
+
     <script>
-        // 页面加载完成后执行
+        // Execute when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // 添加卡片悬停效果
+            // Add hover effect for attraction cards
             document.querySelectorAll('.attraction-card').forEach(card => {
                 card.addEventListener('mouseenter', () => {
                     card.style.transform = 'translateY(-10px)';
@@ -1431,140 +1461,141 @@
                     card.style.transform = 'translateY(0)';
                 });
             });
-            
-            // 悬浮导航栏控制
+
+            // Get elements
             const floatingNav = document.getElementById('floatingNav');
-            let scrollTimer;
-            let isScrolling = false;
-            
-            // 滚动时显示悬浮导航栏
-            window.addEventListener('scroll', function() {
-                // 只在移动设备宽度下执行
-                if (window.innerWidth <= 768) {
-                    floatingNav.classList.add('visible');
-                    
-                    // 清除之前的定时器
-                    clearTimeout(scrollTimer);
-                    
-                    // 设置定时器，1秒后隐藏
-                    scrollTimer = setTimeout(function() {
-                        floatingNav.classList.remove('visible');
-                    }, 1000);
+            const hamburger = document.getElementById('hamburger');
+            const mainHeader = document.getElementById('main-header');
+            let scrollTimeout; // For auto-hiding floating nav
+
+            // Toggle floating navigation visibility on hamburger click
+            hamburger.addEventListener('click', function() {
+                floatingNav.classList.toggle('visible');
+                // If the nav is being shown, clear any pending auto-hide
+                if (floatingNav.classList.contains('visible')) {
+                    clearTimeout(scrollTimeout);
                 }
             });
-            
-            // 汉堡菜单点击事件 - 不再控制悬浮导航栏
-            document.getElementById('hamburger').addEventListener('click', function() {
-                // 现在点击汉堡菜单不做任何事
-                // 或者可以添加其他功能
+
+            // Auto-hide floating nav on scroll after a delay, only on mobile
+            window.addEventListener('scroll', function() {
+                if (window.innerWidth <= 768) {
+                    // Show floating nav on scroll
+                    floatingNav.classList.add('visible');
+                    // Clear previous timeout to reset auto-hide timer
+                    clearTimeout(scrollTimeout);
+                    // Set new timeout to hide after 1.5 seconds of no scrolling
+                    scrollTimeout = setTimeout(function() {
+                        floatingNav.classList.remove('visible');
+                    }, 1500); // 1.5 seconds delay
+                }
             });
-            
-            // 悬浮导航栏链接点击后收起导航栏（仅移动端）
+
+            // Hide floating nav when a link inside it is clicked (mobile only)
             document.querySelectorAll('.floating-nav a').forEach(anchor => {
                 anchor.addEventListener('click', function() {
-                    // 如果是移动端，则收起悬浮导航栏
                     if (window.innerWidth <= 768) {
                         floatingNav.classList.remove('visible');
                     }
                 });
             });
-            
-            // 平滑滚动效果 - 修复偏移问题
+
+            // Smooth scrolling effect and active link highlighting
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
-                    
+
                     const targetId = this.getAttribute('href');
-                    if(targetId === '#') return;
-                    
+                    if (targetId === '#') return; // Skip if href is just '#'
+
                     const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
-                        // 获取当前导航栏高度
-                        const headerHeight = document.getElementById('main-header').offsetHeight;
-                        
-                        // 计算目标位置（减去导航栏高度和20px缓冲）
-                        let targetPosition = targetElement.offsetTop - headerHeight - 20;
-                        
-                        // 使用更精确的计算方式
+                    if (targetElement) {
+                        // Calculate header height for scroll offset
+                        const headerHeight = mainHeader.offsetHeight;
+                        // Calculate target position with header offset
                         const elementRect = targetElement.getBoundingClientRect();
                         const absoluteElementTop = elementRect.top + window.pageYOffset;
-                        targetPosition = absoluteElementTop - headerHeight;
-                        
-                        // 平滑滚动到目标位置
+                        const targetPosition = absoluteElementTop - headerHeight - 20; // Add a small buffer
+
+                        // Smooth scroll to the calculated position
                         window.scrollTo({
                             top: targetPosition,
                             behavior: 'smooth'
                         });
-                        
-                        // 更新导航栏激活状态
+
+                        // Update active class for all navigation links
                         document.querySelectorAll('.nav-links a, .floating-nav a').forEach(a => {
                             a.classList.remove('active');
                         });
-                        this.classList.add('active');
+                        this.classList.add('active'); // Set active class on clicked link
                     }
                 });
             });
-            
-            // 导航栏滚动效果
-            const header = document.getElementById('main-header');
+
+            // Header shrink on scroll and active section highlight
             window.addEventListener('scroll', () => {
+                // Shrink header effect
                 if (window.scrollY > 100) {
-                    header.classList.add('scrolled');
+                    mainHeader.classList.add('scrolled');
                 } else {
-                    header.classList.remove('scrolled');
+                    mainHeader.classList.remove('scrolled');
                 }
-                
-                // 滚动时更新导航栏激活状态
-                const sections = document.querySelectorAll('.section');
+
+                // Update active navigation link based on scroll position
+                const sections = document.querySelectorAll('.section, .hero'); // Include hero section
                 const navLinks = document.querySelectorAll('.nav-links a, .floating-nav a');
-                
-                let current = '';
-                
+
+                let currentActiveSectionId = '';
+                const headerHeight = mainHeader.offsetHeight; // Get current header height
+                const scrollOffset = window.scrollY + headerHeight + 50; // Add buffer for better UX
+
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
                     const sectionHeight = section.clientHeight;
-                    
-                    // 添加导航栏高度偏移
-                    const headerHeight = document.getElementById('main-header').offsetHeight;
-                    const scrollOffset = window.scrollY + headerHeight + 20;
-                    
+
                     if (scrollOffset >= sectionTop && scrollOffset < sectionTop + sectionHeight) {
-                        current = section.getAttribute('id') || '';
+                        currentActiveSectionId = section.getAttribute('id') || '';
                     }
                 });
-                
+
                 navLinks.forEach(link => {
                     link.classList.remove('active');
                     const href = link.getAttribute('href');
-                    if (href === `#${current}` || (href === '#home' && current === '')) {
+                    // Check if link's href matches current section ID or is home link and no other section is active
+                    if (href === `#${currentActiveSectionId}` || (href === '#home' && currentActiveSectionId === 'home')) {
                         link.classList.add('active');
                     }
                 });
             });
-            
-            // 地图加载处理
+
+            // Map loading handling
             const mapImage = document.getElementById('qinghaiMap');
             const mapLoading = document.getElementById('mapLoading');
-            
-            // 模拟地图加载过程
-            setTimeout(() => {
+
+            // Simulate map loading process (for initial display)
+            // This timeout ensures the loading spinner is shown briefly even if image loads fast
+            const loadingTimeout = setTimeout(() => {
                 mapLoading.style.opacity = '0';
                 setTimeout(() => {
                     mapLoading.style.display = 'none';
-                }, 500);
-            }, 1500);
-            
-            // 确保图片加载完成后隐藏加载动画
+                }, 500); // Wait for fade-out to complete before hiding
+            }, 1500); // Show loader for at least 1.5 seconds
+
+            // Hide loading animation once the image has fully loaded
             mapImage.onload = function() {
+                clearTimeout(loadingTimeout); // Clear simulated loading timeout if image loads faster
                 mapLoading.style.opacity = '0';
                 setTimeout(() => {
                     mapLoading.style.display = 'none';
                 }, 500);
             };
-            
-            // 如果图片加载失败，显示错误信息
+
+            // Display an error message if the image fails to load
             mapImage.onerror = function() {
+                clearTimeout(loadingTimeout); // Clear simulated loading timeout
                 mapLoading.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>地图加载失败，请刷新页面</p>';
+                mapLoading.style.opacity = '1'; // Ensure error message is visible
+                mapLoading.style.display = 'flex'; // Ensure error message is displayed
             };
         });
     </script>
