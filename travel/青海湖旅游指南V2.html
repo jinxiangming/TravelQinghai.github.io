@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青海湖+西宁周边景点建议指南</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary: #1a6aa2;
+            --secondary: #3498db;
+            --accent: #ff9d00;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #e74c3c;
+            --purple: #9b59b6;
+            --text: #2c3e50;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --header-height: 70px;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e6f7ff 0%, #f1f8fe 100%);
+            color: var(--text);
+            line-height: 1.7;
+            padding-top: var(--header-height);
+            min-height: 100vh;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            height: 60px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #0d4f85 0%, #1a6aa2 100%);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            margin-left: 40px;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1567602901358-5ba00815eb15?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            font-weight: 800;
+            animation: fadeInDown 1s ease;
+        }
+        
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .btn {
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 157, 0, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: #ff8c00;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 157, 0, 0.6);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.8) 0.5px, transparent 1px),
+                radial-gradient(circle at 90% 80%, rgba(255,255,255,0.8) 0.5px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .guide-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 40px 30px 30px;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .guide-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--accent);
+        }
+        
+        h1 {
+            font-size: 2.6rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+        
+        .info-box {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 18px;
+            padding: 20px;
+            margin: 25px auto 10px;
+            max-width: 900px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .info-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        
+        .info-item {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 12px 22px;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section {
+            padding: 40px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            padding-left: 25px;
+            margin: 0 0 35px;
+            font-size: 2.1rem;
+            font-weight: 800;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 80%;
+            width: 8px;
+            background: linear-gradient(to bottom, var(--accent), #ff6b00);
+            border-radius: 4px;
+        }
+        
+        .section-title i {
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
+        
+        .attraction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+            margin: 35px 0;
+        }
+        
+        .attraction-card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+        
+        .attraction-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .attraction-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        .attraction-card h3 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f5ff;
+        }
+        
+        .attraction-card h3 i {
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
+        
+        .card-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 22px;
+        }
+        
+        .card-section {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .card-section h4 {
+            color: var(--text);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        .card-section h4 i {
+            width: 36px;
+            height: 36px;
+            background: #e3f2fd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .card-section::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 3px;
+            height: calc(100% - 20px);
+            background: #e3f2fd;
+            border-radius: 3px;
+        }
+        
+        ul {
+            padding-left: 10px;
+            margin: 12px 0;
+        }
+        
+        li {
+            margin-bottom: 14px;
+            position: relative;
+            padding-left: 25px;
+            line-height: 1.6;
+        }
+        
+        li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--secondary);
+            opacity: 0.3;
+        }
+        
+        /* 文字颜色样式 */
+        .text-success {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .text-primary {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .text-warning {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        .text-danger {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        .text-purple {
+            color: var(--purple);
+            font-weight: 600;
+        }
+        
+        .text-accent {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .note-box {
+            background: linear-gradient(to right, #e3f2fd, #f0f7ff);
+            border-left: 5px solid var(--primary);
+            padding: 28px;
+            margin: 35px 0;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .note-box::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            opacity: 0.05;
+            border-radius: 50%;
+        }
+        
+        footer {
+            background: linear-gradient(to right, var(--primary), #0e4a7c);
+            color: #ecf0f1;
+            text-align: center;
+            padding: 35px 20px;
+            font-size: 1.1rem;
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent), #ff6b00);
+        }
+        
+        footer p {
+            margin: 12px 0;
+            position: relative;
+            z-index: 1;
+            line-height: 1.8;
+        }
+        
+        footer i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        /* 地图部分 */
+        .map-container {
+            height: 500px;
+            background: #f0f5ff;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 40px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        
+        .map-overlay h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .map-overlay ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .map-overlay li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-left: 0;
+        }
+        
+        .map-overlay li:before {
+            display: none;
+        }
+        
+        .map-overlay li:last-child {
+            border-bottom: none;
+        }
+        
+        .map-overlay .marker {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .marker-1 { background: var(--primary); }
+        .marker-2 { background: var(--accent); }
+        .marker-3 { background: var(--success); }
+        .marker-4 { background: var(--purple); }
+        
+        .map-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* 锚点定位 */
+        .section-anchor {
+            position: absolute;
+            top: -100px;
+            left: 0;
+        }
+        
+        /* 加载动画 */
+        .map-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 5;
+            transition: opacity 0.5s;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 900px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .guide-header {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section {
+                padding: 35px 25px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                padding-left: 20px;
+                margin-bottom: 30px;
+            }
+            
+            .attraction-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .info-item {
+                padding: 10px 18px;
+                font-size: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .map-overlay {
+                max-width: 250px;
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: var(--header-height);
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+                flex-direction: column;
+                gap: 0;
+                padding: 20px 0;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            
+            .nav-links a {
+                width: 100%;
+                border-radius: 0;
+                padding: 15px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .map-overlay {
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 100%;
+                max-width: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+                padding-left: 18px;
+            }
+            
+            .attraction-card {
+                padding: 25px 20px;
+            }
+            
+            .attraction-card h3 {
+                font-size: 1.4rem;
+            }
+            
+            .card-section h4 {
+                font-size: 1.15rem;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .info-item {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+            
+            li {
+                padding-left: 22px;
+                font-size: 0.95rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .attraction-card {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .card-section:nth-child(1) h4 i { background: #e8f5e9; color: var(--success); }
+        .card-section:nth-child(2) h4 i { background: #e3f2fd; color: var(--primary); }
+        .card-section:nth-child(3) h4 i { background: #fff8e1; color: var(--warning); }
+        .card-section:nth-child(4) h4 i { background: #f3e5f5; color: var(--purple); }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header id="main-header">
+        <div class="logo">
+            <i class="fas fa-mountain"></i>
+            <span>青海湖旅游指南</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#home" class="active"><i class="fas fa-home"></i> 首页</a>
+            <a href="#guide"><i class="fas fa-map-marked-alt"></i> 景点指南</a>
+            <a href="#map"><i class="fas fa-map"></i> 景点地图</a>
+            <a href="#cost"><i class="fas fa-wallet"></i> 费用优化</a>
+            <a href="#tips"><i class="fas fa-child"></i> 家庭提示</a>
+        </nav>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+    
+    <!-- 英雄区域 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>探索青海湖与西宁周边美景</h1>
+            <p>六口之家专项建议：2成人+2老人+2儿童 | 实用省钱技巧 | 老人儿童注意事项</p>
+            <div class="hero-buttons">
+                <a href="#guide" class="btn btn-primary">
+                    <i class="fas fa-map-marked-alt"></i> 查看景点指南
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-download"></i> 下载完整攻略
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 主内容区域 -->
+    <div class="container" id="guide">
+        <div class="header-pattern"></div>
+        
+        <div class="guide-header">
+            <div class="header-content">
+                <h1><i class="fas fa-mountain"></i> 青海湖+西宁周边景点建议指南</h1>
+                <div class="header-subtitle">费用优惠 · 打卡地点 · 安全提示 · 特殊注意事项</div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <div class="info-item"><i class="fas fa-users"></i> 六口之家专项建议：2成人+2老人+2儿童</div>
+                        <div class="info-item"><i class="fas fa-wallet"></i> 费用优化：实用省钱技巧</div>
+                        <div class="info-item"><i class="fas fa-heart"></i> 健康安全：老人儿童注意事项</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主要景点建议 -->
+        <div class="section">
+            <div class="section-anchor" id="guide-anchor"></div>
+            <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> 主要景点游玩建议</h2>
+            
+            <div class="attraction-grid">
+                <!-- 青海省博物馆 -->
+                <div class="attraction-card">
+                    <h3><i class="fas fa-landmark"></i> 青海省博物馆</h3>
+                    <div class="card-content">
+                        <div class="card-section">
+                            <h4><i class="fas fa-tag"></i> 费用优惠</h4>
+                            <ul>
+                                <li><span class="text-success">免费开放</span>，但需提前在公众号预约</li>
+                                <li><span class="text-success">60岁以上老人</span>凭身份证可走绿色通道</li>
+                                <li><span class="text-success">学生</span>凭学生证可免费租用讲解器</li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-camera"></i> 打卡地点</h4>
+                            <ul>
+                                <li>二楼民族民俗展厅：<span class="text-primary">藏族服饰展区</span></li>
+                                <li>历史文物展厅：<span class="text-primary">彩陶文化展区</span></li>
+                                <li>非遗文化展示区：<span class="text-primary">唐卡艺术</span></li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-exclamation-triangle"></i> 安全与健康</h4>
+                            <ul>
+                                <li>室内景点，<span class="text-success">不受天气影响</span></li>
+                                <li>老人可随时使用馆内<span class="text-success">休息区</span></li>
+                                <li>儿童可在<span class="text-success">互动体验区</span>参与活动</li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-info-circle"></i> 特别提示</h4>
+                            <ul>
+                                <li><span class="text-danger">周一闭馆</span>（遇闭馆可改去藏文化博物院）</li>
+                                <li>馆内保持安静，<span class="text-danger">禁止使用闪光灯拍照</span></li>
+                                <li>建议租用讲解器<span class="text-success">（¥20）</span>深入了解文化</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 塔尔寺 -->
+                <div class="attraction-card">
+                    <h3><i class="fas fa-place-of-worship"></i> 塔尔寺</h3>
+                    <div class="card-content">
+                        <div class="card-section">
+                            <h4><i class="fas fa-tag"></i> 费用优惠</h4>
+                            <ul>
+                                <li>成人<span class="text-success">¥80</span>，学生半价，70岁以上免票</li>
+                                <li>提前1天在<span class="text-success">携程/美团购票优惠5-10元</span></li>
+                                <li>下午4点后门票<span class="text-success">半价（冬季）</span></li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-camera"></i> 打卡地点</h4>
+                            <ul>
+                                <li><span class="text-primary">大金瓦殿</span>：寺内最神圣的殿堂</li>
+                                <li><span class="text-primary">八宝如意塔</span>：标志性建筑群</li>
+                                <li><span class="text-primary">时轮经院</span>：精美壁画和堆绣</li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-exclamation-triangle"></i> 安全与健康</h4>
+                            <ul>
+                                <li>台阶较多，<span class="text-warning">老人需注意慢行</span></li>
+                                <li><span class="text-warning">紫外线强</span>，需做好防晒</li>
+                                <li>儿童需看管好，<span class="text-warning">避免喧哗</span></li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-info-circle"></i> 特别提示</h4>
+                            <ul>
+                                <li><span class="text-success">顺时针转经筒</span>，不踩门槛</li>
+                                <li><span class="text-danger">不用手指佛像</span>，衣着得体</li>
+                                <li>殿内<span class="text-danger">禁止拍照</span>，尊重宗教活动</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 青海湖二郎剑景区 -->
+                <div class="attraction-card">
+                    <h3><i class="fas fa-water"></i> 青海湖二郎剑景区</h3>
+                    <div class="card-content">
+                        <div class="card-section">
+                            <h4><i class="fas fa-tag"></i> 费用优惠</h4>
+                            <ul>
+                                <li>旺季<span class="text-success">¥90</span>，60岁以上免票，儿童半价</li>
+                                <li>景区外<span class="text-success">牧民小道进入¥20-30</span></li>
+                                <li>提前网上购票可享<span class="text-success">9折优惠</span></li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-camera"></i> 打卡地点</h4>
+                            <ul>
+                                <li><span class="text-primary">湖边码头</span>：青海湖石碑</li>
+                                <li><span class="text-primary">经幡广场</span>：彩色经幡背景</li>
+                                <li><span class="text-primary">祭海台</span>：传统祭海仪式点</li>
+                                <li><span class="text-primary">观鸟区</span>：夏季候鸟聚集地</li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-exclamation-triangle"></i> 安全与健康</h4>
+                            <ul>
+                                <li>湖边<span class="text-warning">风大</span>，注意保暖防寒</li>
+                                <li><span class="text-warning">紫外线强</span>，需戴墨镜和帽子</li>
+                                <li>儿童<span class="text-danger">远离水边</span>，防落水</li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-info-circle"></i> 特别提示</h4>
+                            <ul>
+                                <li>不随意<span class="text-danger">投喂鸟类</span></li>
+                                <li>不破坏<span class="text-danger">玛尼堆</span></li>
+                                <li>不踩踏草地<span class="text-danger">（罚款¥100+）</span></li>
+                                <li>避免接触湖水<span class="text-warning">（水温低且含盐高）</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 茶卡盐湖 -->
+                <div class="attraction-card">
+                    <h3><i class="fas fa-snowflake"></i> 茶卡盐湖</h3>
+                    <div class="card-content">
+                        <div class="card-section">
+                            <h4><i class="fas fa-tag"></i> 费用优惠</h4>
+                            <ul>
+                                <li>门票<span class="text-success">¥50</span>，小火车¥50，套票¥168</li>
+                                <li><span class="text-success">浙江籍游客</span>凭身份证免门票</li>
+                                <li><span class="text-success">早8点前/晚6点后免费进入</span></li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-camera"></i> 打卡地点</h4>
+                            <ul>
+                                <li><span class="text-primary">天空之镜广场</span>：经典倒影拍摄点</li>
+                                <li><span class="text-primary">盐雕群</span>：巨大盐雕艺术作品</li>
+                                <li><span class="text-primary">小火车轨道</span>：网红拍照点</li>
+                                <li><span class="text-primary">心形栈道</span>：情侣打卡点</li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-exclamation-triangle"></i> 安全与健康</h4>
+                            <ul>
+                                <li>必须戴<span class="text-danger">墨镜</span>防强光伤害眼睛</li>
+                                <li>穿<span class="text-success">防水鞋套</span>（景区外购买更便宜）</li>
+                                <li>老人可乘<span class="text-success">小火车</span>节省体力</li>
+                                <li>儿童避免接触<span class="text-danger">盐水</span>（腐蚀皮肤）</li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-info-circle"></i> 特别提示</h4>
+                            <ul>
+                                <li>最佳拍摄时间：<span class="text-success">上午10点前或下午4点后</span></li>
+                                <li>避开<span class="text-danger">盐洞危险区域</span></li>
+                                <li>不破坏盐层，不<span class="text-danger">丢弃垃圾</span></li>
+                                <li>穿<span class="text-success">鲜艳衣物（红色最佳）</span>拍照效果好</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 卓尔山风景区 -->
+                <div class="attraction-card">
+                    <h3><i class="fas fa-mountain"></i> 卓尔山风景区</h3>
+                    <div class="card-content">
+                        <div class="card-section">
+                            <h4><i class="fas fa-tag"></i> 费用优惠</h4>
+                            <ul>
+                                <li>主景区<span class="text-success">¥60</span>，后山免费（风景类似）</li>
+                                <li>60岁以上老人半价，<span class="text-success">70岁以上免票</span></li>
+                                <li>提前网上购票<span class="text-success">优惠5元</span></li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-camera"></i> 打卡地点</h4>
+                            <ul>
+                                <li><span class="text-primary">卓尔山观景台</span>：丹霞地貌全景</li>
+                                <li><span class="text-primary">烽火台</span>：历史遗迹</li>
+                                <li><span class="text-primary">西夏烽燧</span>：远眺牛心山</li>
+                                <li><span class="text-primary">情人崖</span>：情侣拍照点</li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-exclamation-triangle"></i> 安全与健康</h4>
+                            <ul>
+                                <li>山路注意<span class="text-warning">防滑</span>，穿防滑鞋</li>
+                                <li>老人<span class="text-warning">量力而行</span>，带登山杖</li>
+                                <li>儿童<span class="text-danger">勿乱跑</span>，防摔伤</li>
+                                <li>天气多变，<span class="text-warning">带雨具</span></li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-info-circle"></i> 特别提示</h4>
+                            <ul>
+                                <li>尊重牧民草场，<span class="text-danger">未经允许不进入</span></li>
+                                <li>骑马先谈好价格<span class="text-success">（约¥30/30分钟）</span></li>
+                                <li>不随意<span class="text-danger">拍牧羊犬</span></li>
+                                <li>保护环境，不<span class="text-danger">乱扔垃圾</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 门源油菜花海 -->
+                <div class="attraction-card">
+                    <h3><i class="fas fa-seedling"></i> 门源油菜花海</h3>
+                    <div class="card-content">
+                        <div class="card-section">
+                            <h4><i class="fas fa-tag"></i> 费用优惠</h4>
+                            <ul>
+                                <li>观景台<span class="text-success">¥60</span>，周边免费花田同样壮观</li>
+                                <li><span class="text-success">早7点前进入免费</span></li>
+                                <li>当地村民引导小路进入<span class="text-success">¥10-20</span></li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-camera"></i> 打卡地点</h4>
+                            <ul>
+                                <li><span class="text-primary">圆山观景台</span>：全景拍摄点</li>
+                                <li><span class="text-primary">百里油菜花海</span>：公路旁田园风光</li>
+                                <li><span class="text-primary">照壁山</span>：俯拍花海最佳位置</li>
+                                <li><span class="text-primary">芬芳浴</span>：置身花海体验点</li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-exclamation-triangle"></i> 安全与健康</h4>
+                            <ul>
+                                <li>花田<span class="text-warning">蜜蜂多</span>，避免使用香水</li>
+                                <li>老人可在<span class="text-success">路边观赏</span></li>
+                                <li>儿童防蜜蜂蛰，<span class="text-success">戴网纱帽</span></li>
+                                <li><span class="text-danger">花粉过敏者</span>提前服药</li>
+                            </ul>
+                        </div>
+                        <div class="card-section">
+                            <h4><i class="fas fa-info-circle"></i> 特别提示</h4>
+                            <ul>
+                                <li>不进入花田踩踏<span class="text-danger">（罚款¥100+）</span></li>
+                                <li>最佳花期：<span class="text-success">7月5日-25日</span></li>
+                                <li>穿<span class="text-success">浅色衣物</span>拍照效果更佳</li>
+                                <li>尊重农田，不<span class="text-danger">采摘油菜花</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <strong><i class="fas fa-lightbulb"></i> 综合建议：</strong>
+                <ul>
+                    <li><span class="text-success">高原适应</span>：抵达西宁后24小时内避免剧烈运动，老人首日不要洗澡</li>
+                    <li><span class="text-primary">行车安全</span>：高原地区胎压变化快，每日检查车辆状况</li>
+                    <li><span class="text-warning">防晒保暖</span>：高原紫外线强，温差大，备好SPF50+防晒和保暖衣物</li>
+                    <li><span class="text-danger">饮食注意</span>：避免生冷食物，多喝温水，老人儿童慎食当地酸奶</li>
+                    <li><span class="text-purple">文化尊重</span>：清真区域不提猪肉，寺庙内不逆时针转经，不随意拍摄僧人</li>
+                    <li><span class="text-accent">环保意识</span>：带走所有垃圾，不破坏植被，不投喂野生动物</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 地图区域 -->
+        <div class="section" id="map">
+            <div class="section-anchor" id="map-anchor"></div>
+            <h2 class="section-title"><i class="fas fa-map"></i> 景点分布地图</h2>
+            
+            <div class="map-container">
+                <div class="map-loading" id="mapLoading">
+                    <div class="loader"></div>
+                    <p>正在加载地图...</p>
+                </div>
+                <div class="map-overlay">
+                    <h3><i class="fas fa-map-marker-alt"></i> 景点位置</h3>
+                    <ul>
+                        <li><span class="marker marker-1"></span> 青海省博物馆（西宁市）</li>
+                        <li><span class="marker marker-2"></span> 塔尔寺（湟中县）</li>
+                        <li><span class="marker marker-3"></span> 青海湖二郎剑景区</li>
+                        <li><span class="marker marker-4"></span> 茶卡盐湖（乌兰县）</li>
+                        <li><span class="marker marker-1"></span> 卓尔山风景区（祁连县）</li>
+                        <li><span class="marker marker-2"></span> 门源油菜花海</li>
+                    </ul>
+                </div>
+                <!-- 青海湖景点地图 - 使用可靠的新链接 -->
+                <img src="https://www.amazingchinatrip.com/wp-content/uploads/2019/11/qinghai-lake-map-1024x819.jpg" 
+                     alt="青海湖旅游地图" 
+                     class="map-image" 
+                     id="qinghaiMap">
+            </div>
+        </div>
+        
+        <!-- 费用优化建议 -->
+        <div class="section" id="cost">
+            <div class="section-anchor" id="cost-anchor"></div>
+            <h2 class="section-title"><i class="fas fa-wallet"></i> 费用优化建议</h2>
+            
+            <div class="attraction-grid">
+                <div class="attraction-card">
+                    <h3><i class="fas fa-ticket-alt"></i> 门票节省技巧</h3>
+                    <div class="card-content">
+                        <ul>
+                            <li><span class="text-success">早鸟优惠</span>：茶卡盐湖早8点前免费进入</li>
+                            <li><span class="text-success">证件利用</span>：学生证、老年证、军官证等可享优惠</li>
+                            <li><span class="text-success">组合套票</span>：部分景点套票比单独购买更划算</li>
+                            <li><span class="text-success">网络预订</span>：携程/美团等平台提前1天订票享折扣</li>
+                            <li><span class="text-success">免费替代</span>：卓尔山后山免费，风景类似主景区</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="attraction-card">
+                    <h3><i class="fas fa-utensils"></i> 餐饮节省技巧</h3>
+                    <div class="card-content">
+                        <ul>
+                            <li><span class="text-success">避开景区</span>：景区餐厅溢价50%+，尽量在镇上用餐</li>
+                            <li><span class="text-success">当地市场</span>：西宁莫家街、水井巷品尝地道小吃</li>
+                            <li><span class="text-success">自备干粮</span>：长途路段备退骨牛肉、馍等干粮</li>
+                            <li><span class="text-success">团购平台</span>：使用美团、大众点评找优惠套餐</li>
+                            <li><span class="text-success">错峰用餐</span>：避开游客高峰时段（12:00-13:00）</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="attraction-card">
+                    <h3><i class="fas fa-bed"></i> 住宿节省技巧</h3>
+                    <div class="card-content">
+                        <ul>
+                            <li><span class="text-success">家庭民宿</span>：选择家庭式民宿比酒店节省40%</li>
+                            <li><span class="text-success">提前预订</span>：旺季至少提前2周预订，价格更低</li>
+                            <li><span class="text-success">连锁酒店</span>：西宁选择连锁酒店性价比高</li>
+                            <li><span class="text-success">避开热门</span>：不住景区内，选择周边3-5公里住宿</li>
+                            <li><span class="text-success">讲价技巧</span>：直接与民宿老板协商价格</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 老人儿童特别提示 -->
+        <div class="section" id="tips">
+            <div class="section-anchor" id="tips-anchor"></div>
+            <h2 class="section-title"><i class="fas fa-child"></i> 老人儿童特别提示</h2>
+            
+            <div class="attraction-grid">
+                <div class="attraction-card">
+                    <h3><i class="fas fa-user"></i> 老人注意事项</h3>
+                    <div class="card-content">
+                        <ul>
+                            <li><span class="text-danger">高原反应</span>：首日不洗澡，睡前吸氧10分钟</li>
+                            <li><span class="text-warning">血压监测</span>：每日晨起测量血压</li>
+                            <li><span class="text-warning">保暖防寒</span>：高原温差大，备好羽绒服</li>
+                            <li><span class="text-warning">饮食注意</span>：七分饱，避免油腻，多喝温水</li>
+                            <li><span class="text-success">行程安排</span>：每日行程不超过300公里</li>
+                            <li><span class="text-success">休息保障</span>：景点安排充足休息时间</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="attraction-card">
+                    <h3><i class="fas fa-baby"></i> 儿童注意事项</h3>
+                    <div class="card-content">
+                        <ul>
+                            <li><span class="text-danger">安全座椅</span>：4岁以下必须使用安全座椅</li>
+                            <li><span class="text-warning">防走失</span>：景区人多，准备防走失手环</li>
+                            <li><span class="text-warning">防晒保护</span>：儿童皮肤敏感，加强防晒</li>
+                            <li><span class="text-warning">饮食注意</span>：慎食生冷，牦牛酸奶需加蜂蜜</li>
+                            <li><span class="text-success">保暖措施</span>：每2小时检查手指温度</li>
+                            <li><span class="text-success">高原适应</span>：备电解质冲剂防水土不服</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="attraction-card">
+                    <h3><i class="fas fa-heartbeat"></i> 健康应急准备</h3>
+                    <div class="card-content">
+                        <ul>
+                            <li><span class="text-danger">药品清单</span>：高原急救药、肠胃药、感冒药</li>
+                            <li><span class="text-warning">氧气设备</span>：便携氧气瓶（人均1罐）</li>
+                            <li><span class="text-warning">血氧监测</span>：备血氧仪（血氧<90%需下撤）</li>
+                            <li><span class="text-success">急救联络</span>：青海湖救援☎0974-8519688</li>
+                            <li><span class="text-success">保险准备</span>：购买高原旅游意外险</li>
+                            <li><span class="text-success">车辆救援</span>：神州租车西宁站☎0971-8213666</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p><i class="fas fa-info-circle"></i> 青海湖+西宁周边8日家庭自驾游景点建议指南 | 更新日期：2025年6月26日</p>
+            <p><i class="fas fa-exclamation-triangle"></i> 温馨提示：7月青海湖气温5-25℃，早晚温差大，请备好防风保暖衣物</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加卡片悬停效果
+            document.querySelectorAll('.attraction-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 平滑滚动效果 - 修复偏移问题
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        // 获取当前导航栏高度
+                        const headerHeight = document.getElementById('main-header').offsetHeight;
+                        
+                        // 计算目标位置（减去导航栏高度和20px缓冲）
+                        let targetPosition = targetElement.offsetTop - headerHeight - 20;
+                        
+                        // 使用更精确的计算方式
+                        const elementRect = targetElement.getBoundingClientRect();
+                        const absoluteElementTop = elementRect.top + window.pageYOffset;
+                        targetPosition = absoluteElementTop - headerHeight;
+                        
+                        // 平滑滚动到目标位置
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 更新导航栏激活状态
+                        document.querySelectorAll('.nav-links a').forEach(a => {
+                            a.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
+            });
+            
+            // 导航栏滚动效果
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                
+                // 滚动时更新导航栏激活状态
+                const sections = document.querySelectorAll('.section');
+                const navLinks = document.querySelectorAll('.nav-links a');
+                
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    // 添加导航栏高度偏移
+                    const headerHeight = document.getElementById('main-header').offsetHeight;
+                    const scrollOffset = window.scrollY + headerHeight + 20;
+                    
+                    if (scrollOffset >= sectionTop && scrollOffset < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id') || '';
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+                    if (href === `#${current}` || (href === '#home' && current === '')) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+            // 移动端菜单
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // 点击导航项时关闭移动菜单
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
+            });
+            
+            // 地图加载处理
+            const mapImage = document.getElementById('qinghaiMap');
+            const mapLoading = document.getElementById('mapLoading');
+            
+            // 模拟地图加载过程
+            setTimeout(() => {
+                mapLoading.style.opacity = '0';
+                setTimeout(() => {
+                    mapLoading.style.display = 'none';
+                }, 500);
+            }, 1500);
+            
+            // 确保图片加载完成后隐藏加载动画
+            mapImage.onload = function() {
+                mapLoading.style.opacity = '0';
+                setTimeout(() => {
+                    mapLoading.style.display = 'none';
+                }, 500);
+            };
+            
+            // 如果图片加载失败，显示错误信息
+            mapImage.onerror = function() {
+                mapLoading.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>地图加载失败，请刷新页面</p>';
+            };
+        });
+    </script>
+</body>
+</html>
