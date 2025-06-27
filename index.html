@@ -1782,6 +1782,10 @@
                 // If the nav is being shown, clear any pending auto-hide
                 if (floatingNav.classList.contains('visible')) {
                     clearTimeout(scrollTimeout);
+                    // 在移动设备上显示导航栏时更新活动链接
+                    if (window.innerWidth <= 768) {
+                        updateActiveNavLink();
+                    }
                 }
             });
 
@@ -1819,15 +1823,64 @@
                         mainHeader.style.display = 'flex';
                         document.body.style.paddingTop = 'var(--header-height)';
                     }
+                    
+                    // 更新活动导航链接
+                    updateActiveNavLink();
+                    
                     lastScrollTop = currentScroll; // Update last scroll position
                 }, 100); // Throttle to 100ms
             });
 
+            // 更新活动导航链接的函数
+            function updateActiveNavLink() {
+                const sections = document.querySelectorAll('.section, .hero');
+                const navLinks = document.querySelectorAll('.nav-links a, .floating-nav a');
+                
+                // 在移动设备上使用较小的偏移量
+                const isMobile = window.innerWidth <= 768;
+                const scrollOffset = window.scrollY + (isMobile ? 50 : 100);
+                
+                let currentActiveSectionId = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (scrollOffset >= sectionTop && scrollOffset < sectionTop + sectionHeight) {
+                        currentActiveSectionId = section.getAttribute('id') || '';
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+                    if (href === `#${currentActiveSectionId}` || (href === '#home' && currentActiveSectionId === 'home')) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
             // Hide floating nav when a link inside it is clicked (mobile only)
             document.querySelectorAll('.floating-nav a').forEach(anchor => {
-                anchor.addEventListener('click', function() {
+                anchor.addEventListener('click', function(e) {
                     if (window.innerWidth <= 768) {
-                        floatingNav.classList.remove('visible');
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if (targetElement) {
+                            // 平滑滚动到目标位置
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                            
+                            // 更新活动链接
+                            document.querySelectorAll('.floating-nav a').forEach(a => {
+                                a.classList.remove('active');
+                            });
+                            this.classList.add('active');
+                            
+                            // 隐藏浮动导航栏
+                            floatingNav.classList.remove('visible');
+                        }
                     }
                 });
             });
@@ -1842,58 +1895,32 @@
 
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
-                        // Dynamically determine offset based on device
-                        const headerHeight = window.innerWidth <= 768 ? 0 : mainHeader.offsetHeight;
+                        // 根据设备类型确定偏移量
+                        const isMobile = window.innerWidth <= 768;
+                        const offset = isMobile ? 20 : (mainHeader.offsetHeight + 20);
+                        
+                        // 计算目标位置
                         const elementRect = targetElement.getBoundingClientRect();
                         const absoluteElementTop = elementRect.top + window.pageYOffset;
-                        // Add a small buffer for PC, no buffer for mobile if header is completely gone
-                        const targetPosition = absoluteElementTop - headerHeight - (window.innerWidth <= 768 ? 0 : 20);
+                        const targetPosition = absoluteElementTop - offset;
 
                         window.scrollTo({
                             top: targetPosition,
                             behavior: 'smooth'
                         });
 
+                        // 更新活动链接
                         document.querySelectorAll('.nav-links a, .floating-nav a').forEach(a => {
                             a.classList.remove('active');
                         });
                         this.classList.add('active');
+                        
+                        // 在移动设备上点击后隐藏浮动导航栏
+                        if (isMobile) {
+                            floatingNav.classList.remove('visible');
+                        }
                     }
                 });
-            });
-
-            // Active section highlighting on scroll
-            window.addEventListener('scroll', () => {
-                // Throttle scroll events for better performance
-                if (scrollThrottleTimeout) return;
-                scrollThrottleTimeout = setTimeout(() => {
-                    scrollThrottleTimeout = null;
-                    
-                    const sections = document.querySelectorAll('.section, .hero');
-                    const navLinks = document.querySelectorAll('.nav-links a, .floating-nav a');
-
-                    let currentActiveSectionId = '';
-                    // Adjust scrollOffset for mobile where header is hidden, use 0 for offset
-                    const headerHeightForOffset = window.innerWidth <= 768 ? 0 : mainHeader.offsetHeight;
-                    const scrollOffset = window.scrollY + headerHeightForOffset + 50; // Add buffer for better UX
-
-                    sections.forEach(section => {
-                        const sectionTop = section.offsetTop;
-                        const sectionHeight = section.clientHeight;
-
-                        if (scrollOffset >= sectionTop && scrollOffset < sectionTop + sectionHeight) {
-                            currentActiveSectionId = section.getAttribute('id') || '';
-                        }
-                    });
-
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        const href = link.getAttribute('href');
-                        if (href === `#${currentActiveSectionId}` || (href === '#home' && currentActiveSectionId === 'home')) {
-                            link.classList.add('active');
-                        }
-                    });
-                }, 100);
             });
 
             // Map loading handling
@@ -1923,6 +1950,9 @@
                     }
                 }
             });
+            
+            // 初始加载时更新活动链接
+            updateActiveNavLink();
         });
     </script>
 </body>
