@@ -1228,26 +1228,13 @@
             color: var(--danger);
             font-weight: bold;
         }
-        
-        /* Debug indicator for mobile */
-        .debug-indicator {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(255,0,0,0.7);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            z-index: 9999;
-        }
     </style>
 </head>
 <body>
     <!-- Floating navigation bar -->
     <div class="floating-nav" id="floatingNav">
         <a href="#home" class="active"><i class="fas fa-home"></i> <span>首页</span></a>
-        <a href="#guide-section"><i class="fas fa-map-marked-alt"></i> <span>景点</span></a>
+        <a href="#guide"><i class="fas fa-map-marked-alt"></i> <span>景点</span></a>
         <a href="#map"><i class="fas fa-map"></i> <span>地图</span></a>
         <a href="#cost"><i class="fas fa-wallet"></i> <span>费用</span></a>
         <a href="#tips"><i class="fas fa-child"></i> <span>提示</span></a>
@@ -1262,7 +1249,7 @@
         </div>
         <nav class="nav-links">
             <a href="#home" class="active"><i class="fas fa-home"></i> 首页</a>
-            <a href="#guide-section"><i class="fas fa-map-marked-alt"></i> 景点指南</a>
+            <a href="#guide"><i class="fas fa-map-marked-alt"></i> 景点指南</a>
             <a href="#map"><i class="fas fa-map"></i> 景点地图</a>
             <a href="#cost"><i class="fas fa-wallet"></i> 费用优化</a>
             <a href="#tips"><i class="fas fa-child"></i> 家庭提示</a>
@@ -1280,7 +1267,7 @@
             <h1>探索青海湖与西宁周边美景</h1>
             <p>六口之家：2成人+2老人+2儿童 | 实用省钱技巧 | 老人儿童注意事项</p>
             <div class="hero-buttons">
-                <a href="#guide-section" class="btn btn-primary">
+                <a href="#guide" class="btn btn-primary">
                     <i class="fas fa-map-marked-alt"></i> 查看景点指南
                 </a>
                 <a href="#pdf-download-section-anchor" class="btn btn-secondary">
@@ -1309,7 +1296,7 @@
         </div>
 
         <!-- Main attraction suggestions -->
-        <div class="section" id="guide-section">
+        <div class="section">
             <div class="section-anchor" id="guide-anchor"></div>
             <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> 主要景点游玩建议</h2>
 
@@ -1765,7 +1752,7 @@
             // Get elements
             const floatingNav = document.getElementById('floatingNav');
             const hamburger = document.getElementById('hamburger');
-            const mainHeader = document.getElementById('mainHeader');
+            const mainHeader = document.getElementById('main-header');
             let scrollTimeout; // For auto-hiding floating nav
             let lastScrollTop = 0; // To track scroll direction for header auto-hide
             let scrollThrottleTimeout; // For scroll event throttling
